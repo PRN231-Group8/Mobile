@@ -91,6 +91,7 @@ flutter:
     - assets/images/profiles/
     - assets/images/payments/
     - assets/images/signin/
+    - assets/images/home/
 
   # Local fonts:
   fonts:
