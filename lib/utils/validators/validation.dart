@@ -51,15 +51,15 @@ class TValidator {
     return null;
   }
 
-// static String? validateUsername(String? value) {
-//   if (value == null || value.isEmpty) {
-//     return 'Username is required';
-//   }
-//   final usernameRegExp =
-//       RegExp(r'(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])');
-//   if (!usernameRegExp.hasMatch(value)) {
-//     return 'Invalid username, ensure it contains a number and does not include special characters';
-//   }
-//   return null;
-// }
+static String? validateUsername(String? value) {
+  if (value == null || value.isEmpty) {
+    return 'Username is required';
+  }
+  final usernameRegExp =
+      RegExp(r'(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])');
+  if (!usernameRegExp.hasMatch(value)) {
+    return 'Invalid username, ensure it contains a number and does not include special characters';
+  }
+  return null;
+}
 }
