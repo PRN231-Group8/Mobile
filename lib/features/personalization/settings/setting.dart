@@ -11,6 +11,7 @@ import '../../../common/widgets/list_titles/settings_menu_title.dart';
 import '../../../common/widgets/texts/section_heading.dart';
 import '../../../utils/constants/colors.dart';
 import '../../../utils/constants/sizes.dart';
+import '../../authentication/controllers/logout/logout_controller.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -24,6 +25,7 @@ class SettingsScreenState extends State<SettingsScreen> {
   bool _notificationEnabled = false;
   bool _isNotificationLocked = false;
   bool _isLocationLocked = false;
+  final logoutController = Get.put(LogoutController());
 
   @override
   void initState() {
@@ -278,7 +280,7 @@ class SettingsScreenState extends State<SettingsScreen> {
       title: 'Đăng xuất',
       middleText: 'Điều này sẽ đưa bạn trở về trang đăng nhập',
       confirm: ElevatedButton(
-        onPressed: () {},
+        onPressed: () async => logoutController.logout(),
         style: ElevatedButton.styleFrom(
             backgroundColor: Colors.red,
             side: const BorderSide(color: Colors.red)),
