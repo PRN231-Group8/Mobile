@@ -8,11 +8,11 @@ class PopularDestinations extends StatelessWidget {
   const PopularDestinations({super.key});
 
   final List<Map<String, String>> popular = const [
-    {'image': 'assets/images/home/home1.jpg', 'title': 'Wooden Path', 'location': 'Vientiane', 'price': '\$600'},
-    {'image': 'assets/images/home/home1.jpg', 'title': 'Glencoe', 'location': 'Scotland', 'price': '\$800'},
-    {'image': 'assets/images/home/home1.jpg', 'title': 'Lake Bled', 'location': 'Slovenia', 'price': '\$900'},
-    {'image': 'assets/images/home/home1.jpg', 'title': 'Santorini', 'location': 'Greece', 'price': '\$1200'},
-    {'image': 'assets/images/home/home1.jpg', 'title': 'Mount Fuji', 'location': 'Japan', 'price': '\$700'},
+    {'image': 'assets/images/home/home2.jpg', 'title': 'Wooden Path', 'location': 'Vientiane', 'price': '\$600'},
+    {'image': 'assets/images/home/home2.jpg', 'title': 'Glencoe', 'location': 'Scotland', 'price': '\$800'},
+    {'image': 'assets/images/home/home2.jpg', 'title': 'Lake Bled', 'location': 'Slovenia', 'price': '\$900'},
+    {'image': 'assets/images/home/home2.jpg', 'title': 'Santorini', 'location': 'Greece', 'price': '\$1200'},
+    {'image': 'assets/images/home/home2.jpg', 'title': 'Mount Fuji', 'location': 'Japan', 'price': '\$700'},
   ];
 
   @override

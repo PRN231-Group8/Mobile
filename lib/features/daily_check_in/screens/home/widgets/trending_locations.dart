@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:explore_now/utils/constants/image_strings.dart';
-import 'package:explore_now/utils/constants/sizes.dart';
+import '../models/location_model.dart';
 
 class TrendingDestinations extends StatelessWidget {
-  const TrendingDestinations({super.key});
+  final List<Location> trendingLocations;
 
-  final List<Map<String, String>> trending = const [
-    {'image': 'assets/images/home/home1.jpg', 'title': 'Hanoi'},
-    {'image': 'assets/images/home/home1.jpg', 'title': 'New York City'},
-    {'image': 'assets/images/home/home1.jpg', 'title': 'Oahu'},
-  ];
+  const TrendingDestinations({super.key, required this.trendingLocations});
 
   @override
   Widget build(BuildContext context) {
@@ -17,11 +12,13 @@ class TrendingDestinations extends StatelessWidget {
       height: 150,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: trending.length,
+        itemCount: trendingLocations.length,
         itemBuilder: (context, index) {
           return TrendingCard(
-            image: trending[index]['image']!,
-            title: trending[index]['title']!,
+            image: trendingLocations[index].photos.isNotEmpty
+                ? trendingLocations[index].photos.first.url
+                : 'assets/images/home/home2.jpg',
+            title: trendingLocations[index].name,
           );
         },
       ),
@@ -43,13 +40,14 @@ class TrendingCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Image part
           Expanded(
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
                 image: DecorationImage(
-                  image: AssetImage(image),
+                  image: image.startsWith('http')
+                      ? NetworkImage(image)
+                      : AssetImage(image) as ImageProvider,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -64,20 +62,20 @@ class TrendingCard extends StatelessWidget {
                         color: Colors.orange,
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      child: const Icon(Icons.emoji_events, color: Colors.white, size: 16),
+                      child: const Icon(Icons.emoji_events,
+                          color: Colors.white, size: 16),
                     ),
                   ),
                 ],
               ),
             ),
           ),
-          // Title part
           Padding(
             padding: const EdgeInsets.all(8),
             child: Text(
               title,
               style: const TextStyle(
-                color: Colors.black26,
+                color: Colors.black,
                 fontSize: 14,
                 fontWeight: FontWeight.bold,
               ),
