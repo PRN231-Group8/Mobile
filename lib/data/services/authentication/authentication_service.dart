@@ -69,10 +69,7 @@ class AuthenticationService {
     }
   }
 
-  Future<dynamic> handleSignIn({
-    required String userName,
-    required String password,
-  }) async {
+  Future<dynamic> handleSignIn({required String userName, required String password,}) async {
     var userSignInInformation = {
       "userName": userName.trim().toLowerCase(),
       "password": password.trim(),
