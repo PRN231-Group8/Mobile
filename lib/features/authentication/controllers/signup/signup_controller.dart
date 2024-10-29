@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import '../../../../data/services/authentication/authentication_service.dart';
 import '../../../../utils/constants/image_strings.dart';
 import '../../../../utils/helpers/network_manager.dart';
 import '../../../../utils/popups/full_screen_loader.dart';
@@ -15,7 +16,7 @@ class SignupController extends GetxController {
   final email = TextEditingController();
   final firstName = TextEditingController();
   final lastName = TextEditingController();
-  final phoneNumber = TextEditingController();
+  final userName = TextEditingController();
   final password = TextEditingController();
   GlobalKey<FormState> signupFormKey = GlobalKey<FormState>();
 
@@ -45,32 +46,28 @@ class SignupController extends GetxController {
         return;
       }
 
-      // final userCredential = await AuthenticationRepository.instance
-      //     .registerWithEmailAndPassword(
-      //         email.text.trim(), password.text.trim());
-      //
-      // final newUser = UserModel(
-      //   id: userCredential.user!.uid,
-      //   firstName: firstName.text.trim(),
-      //   lastName: lastName.text.trim(),
-      //   email: email.text.trim(),
-      //   phoneNumber: phoneNumber.text.trim(),
-      //   profilePicture: '',
-      //   roles: ['user'],
-      // );
-
-      // final userRepository = Get.put(UserRepository());
-      // userRepository.saveUserRecord(newUser);
+      var result = await AuthenticationService().handleSignUp(
+        email: email.text,
+        firstName: firstName.text,
+        lastName: lastName.text,
+        userName: userName.text,
+        password: password.text,
+      );
 
       TFullScreenLoader.stopLoading();
-
-      TLoaders.successSnackBar(
-          title: 'Thành công',
-          message:
-              'Tài khoản đã được tạo thành công vui lòng kiểm tra email để xác thực tài khoản.');
-
-      Get.to(() => VerifyEmailScreen(email: email.text.trim()));
+      if (result['success']) {
+        TLoaders.successSnackBar(
+            title: 'Thành công',
+            message:
+            'Tài khoản đã được tạo thành công vui lòng kiểm tra email để xác thực tài khoản.');
+        Get.to(() => VerifyEmailScreen(email: email.text.trim()));
+      }
+      else {
+        TLoaders.warningSnackBar(
+            title: 'Ối đã xảy ra sự cố', message: result['message']);
+      }
     } catch (e) {
+      TFullScreenLoader.stopLoading();
       TLoaders.errorSnackBar(
           title: 'Xảy ra lỗi rồi!',
           message: 'Đã xảy ra sự cố không xác định, vui lòng thử lại sau');
