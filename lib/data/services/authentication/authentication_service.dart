@@ -32,13 +32,15 @@ class AuthenticationService {
     required String lastName,
     required String userName,
     required String password,
+    required String confirmPassword,
   }) async {
     var userRegisterInformation = {
       "email": email.trim(),
       "userName": userName.trim(),
       "password": password.trim(),
-      "firstName": firstName.trim(),
       "lastName": lastName.trim(),
+      "firstName": firstName.trim(),
+      "confirmPassword": confirmPassword.trim(),
     };
 
     try {
@@ -54,6 +56,10 @@ class AuthenticationService {
         final data = jsonDecode(response.body);
         return {"success": true, "data": data};
       } else if (response.statusCode == 400) {
+        final errorData = jsonDecode(response.body);
+        if (kDebugMode) {
+          print("Validation error data: $errorData");
+        }
         return {
           "success": false,
           "message": 'Đã xảy ra lỗi xác thực',

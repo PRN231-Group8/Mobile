@@ -23,6 +23,7 @@ static const String homeAppbarTitle10 = "Express Yourself, Stitch by Stitch";
   static const String lastName = "Tên";
   static const String email = "E-Mail";
   static const String password = "Mật Khẩu";
+  static const String confirmPassword = "Nhập lại mật khẩu";
   static const String newPassword = "New Password";
   static const String username = "Tên người dùng";
   static const String phoneNo = "Số điện thoại";
