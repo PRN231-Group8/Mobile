@@ -98,7 +98,6 @@ class AuthenticationService {
         final accessToken = responseData['token'];
         Map<String, dynamic> decodedToken = JwtDecoder.decode(accessToken);
         int? expirationTime = decodedToken['exp'];
-        await secureStorage.write(key: 'user_email', value: responseData['email']);
 
         if (expirationTime != null) {
           await secureStorage.write(key: 'token_expiration', value: expirationTime.toString());

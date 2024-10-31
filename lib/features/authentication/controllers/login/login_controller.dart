@@ -68,7 +68,6 @@ class LoginController extends GetxController {
         final accessToken = result['data']['token'];
         final userId = result['data']['userId'];
         await secureStorage.write(key: 'user_id', value: userId);
-        await secureStorage.write(key: 'user_name', value: userName.text.trim());
         try {
           Map<String, dynamic> decodedToken = JwtDecoder.decode(accessToken);
           String? userRole = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];

@@ -1,3 +1,4 @@
+
 import 'package:explore_now/utils/constants/colors.dart';
 import 'package:explore_now/utils/helpers/helper_functions.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +7,9 @@ import 'package:iconsax/iconsax.dart';
 import 'package:animations/animations.dart';
 
 import 'features/daily_check_in/screens/home/home.dart';
-import 'features/personalization/screens/settings/setting.dart';
+import 'features/personalization/settings/setting.dart';
+
+
 
 class NavigationMenu extends StatelessWidget {
   const NavigationMenu({super.key});
@@ -18,7 +21,7 @@ class NavigationMenu extends StatelessWidget {
 
     return Scaffold(
       body: Obx(
-        () => PageTransitionSwitcher(
+            () => PageTransitionSwitcher(
           transitionBuilder: (child, animation, secondaryAnimation) {
             return FadeThroughTransition(
               animation: animation,
@@ -33,7 +36,7 @@ class NavigationMenu extends StatelessWidget {
         clipBehavior: Clip.none,
         children: [
           Obx(
-            () => BottomNavigationBar(
+                () => BottomNavigationBar(
               currentIndex: controller.selectedIndex.value,
               onTap: (index) {
                 if (index != 2) {
@@ -80,9 +83,8 @@ class NavigationMenu extends StatelessWidget {
                   controller.selectedIndex.value = 2;
                 },
                 child: Obx(
-                  () => Transform.translate(
-                    offset: const Offset(0, -20),
-                    // Adjust the offset to raise the button
+                      () => Transform.translate(
+                    offset: const Offset(0, -20), // Adjust the offset to raise the button
                     child: AnimatedScale(
                       scale: controller.selectedIndex.value == 2 ? 1.2 : 1.0,
                       duration: const Duration(milliseconds: 300),
