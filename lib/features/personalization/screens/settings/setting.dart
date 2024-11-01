@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import '../../../../common/widgets/appbar/appbar.dart';
+import '../../../../common/widgets/custom_shapes/containers/primary_header_container.dart';
+import '../../../../common/widgets/effects/shimmer_effect.dart';
+import '../../../../common/widgets/list_titles/settings_menu_title.dart';
+import '../../../../common/widgets/list_titles/t_user_profile_title.dart';
+import '../../../../common/widgets/texts/section_heading.dart';
+import '../../../../utils/constants/colors.dart';
 import '../../../../utils/constants/image_strings.dart';
-import '../../../common/widgets/appbar/appbar.dart';
-import '../../../common/widgets/custom_shapes/containers/primary_header_container.dart';
-import '../../../common/widgets/images/t_circular_image.dart';
-import '../../../common/widgets/list_titles/settings_menu_title.dart';
-import '../../../common/widgets/texts/section_heading.dart';
-import '../../../utils/constants/colors.dart';
-import '../../../utils/constants/sizes.dart';
-import '../../authentication/controllers/logout/logout_controller.dart';
+import '../../../../utils/constants/sizes.dart';
+import '../../../authentication/controllers/logout/logout_controller.dart';
+import '../../controllers/user_controller.dart';
+import '../profile/profile.dart';
+
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -25,7 +30,10 @@ class SettingsScreenState extends State<SettingsScreen> {
   bool _notificationEnabled = false;
   bool _isNotificationLocked = false;
   bool _isLocationLocked = false;
+  Map<String, dynamic>? userProfile;
   final logoutController = Get.put(LogoutController());
+  final userController = Get.put(UserController());
+  final secureStorage = const FlutterSecureStorage();
 
   @override
   void initState() {
@@ -117,6 +125,10 @@ class SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
+  Future<String?> getUserEmail() async {
+    return await secureStorage.read(key: 'user_email');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -136,26 +148,24 @@ class SettingsScreenState extends State<SettingsScreen> {
                       showBackArrow: false),
 
                   ///User Profile Card
-                  ListTile(
-                    leading: const TCircularImage(
-                        image: TImages.facebook,
-                        width: 50,
-                        height: 50,
-                        padding: 0),
-                    title: Text("Taikt08s",
-                        style: Theme.of(context)
-                            .textTheme
-                            .headlineSmall!
-                            .apply(color: TColors.white)),
-                    subtitle: Text("Taikt08s",
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyMedium!
-                            .apply(color: TColors.white)),
-                    trailing: IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Iconsax.edit, color: TColors.white)),
-                  ),
+                  Obx(() {
+                    final profilePicture = userController.userUpdateProfile['result']?['avatarPath'];
+                    final networkImage = (profilePicture == null || profilePicture == "null")
+                        ? TImages.userImage2
+                        : profilePicture;
+
+                    if (userController.profileLoading.value) {
+                      return const TShimmerEffect(width: 300, height: 50);
+                    } else {
+                      return TUserProfileTitle(
+                        onPressed: () => Get.to(() => const ProfileScreen()),
+                        fullName: '${userController.firstName.text} ${userController.lastName.text}', // Ensure these are used correctly
+                        email: userController.email.text,
+                        profilePicture: networkImage,
+                        isNetworkImage: !(profilePicture == null || profilePicture == "null"),
+                      );
+                    }
+                  }),
                   const SizedBox(height: TSizes.spaceBtwSections),
                 ],
               ),
@@ -175,8 +185,7 @@ class SettingsScreenState extends State<SettingsScreen> {
                     icon: Iconsax.user_octagon,
                     title: 'Tài Khoản & Bảo Mật',
                     subtitle: 'Thiết lập tài khoản',
-                    // onTap: () => Get.to(() => const ProfileScreen()),
-                    onTap: () => {},
+                    onTap: () => Get.to(() => const ProfileScreen()),
                   ),
                   TSettingsMenuTile(
                     icon: Iconsax.safe_home,
