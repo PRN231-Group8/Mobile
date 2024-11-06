@@ -65,4 +65,38 @@ class PaymentService {
       ioClient.close();
     }
   }
+  Future<Map<String, dynamic>> sendPaymentCallback(Map<String, String> queryParams) async {
+    HttpClient httpClient = HttpClient();
+    httpClient.badCertificateCallback = (X509Certificate cert, String host, int port) => true;
+    final ioClient = IOClient(httpClient);
+
+    // Construct the URL with query parameters
+    final Uri backendCallbackUrl = Uri.parse('${TConnectionStrings.localhost}payments/callback')
+        .replace(queryParameters: queryParams);
+    print("API GET URL: $backendCallbackUrl");
+
+    try {
+      final response = await ioClient.get(
+        backendCallbackUrl,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      );
+      final data = jsonDecode(response.body);
+
+      // Check the "isSucceed" field in the response
+      if (response.statusCode == 200 && data['isSucceed'] == true) {
+        print('Giao dịch hoàn thành.');
+        return {'success': true, 'message': data['result']['message'] ?? 'Giao dịch thành công.'};
+      } else {
+        print('Không thể hoàn thành giao dịch. Lý do: ${data['message'] ?? 'Unknown error'}');
+        return {'success': false, 'message': data['result']['message'] ?? 'Không thể hoàn thành giao dịch.'};
+      }
+    } catch (e) {
+      print('Lỗi khi gọi BE callback API: $e');
+      return {'success': false, 'message': 'Lỗi kết nối với hệ thống.'};
+    } finally {
+      ioClient.close();
+    }
+  }
 }

@@ -102,4 +102,7 @@ class TourController with ChangeNotifier {
       );
     }
   }
+  Future<Map<String, dynamic>> handlePaymentCallback(Map<String, String> queryParams) async {
+    return await _paymentService.sendPaymentCallback(queryParams);
+  }
 }
