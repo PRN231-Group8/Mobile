@@ -1,14 +1,20 @@
-import 'package:explore_now/features/daily_check_in/screens/home/widgets/popular_destinations.dart';
-import 'package:explore_now/features/daily_check_in/screens/home/widgets/search_box.dart';
-import 'package:explore_now/features/daily_check_in/screens/home/widgets/section_title.dart';
-import 'package:explore_now/features/daily_check_in/screens/home/widgets/trending_locations.dart';
+import 'package:explore_now/features/home_screens/screens/home/tours/all_tours.dart';
+import 'package:explore_now/features/home_screens/screens/home/widgets/popular_destinations.dart';
+import 'package:explore_now/features/home_screens/screens/home/widgets/search_box.dart';
+import 'package:explore_now/features/home_screens/screens/home/widgets/section_title.dart';
+import 'package:explore_now/features/home_screens/screens/home/widgets/trending_locations.dart';
 import 'package:flutter/material.dart';
-import 'package:explore_now/utils/constants/sizes.dart';
+import 'package:geocoding/geocoding.dart' as geo;
 import 'package:geolocator/geolocator.dart';
-import 'package:geocoding/geocoding.dart'; // Import the geocoding package
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-
+import '../../locations/widgets/all_locations.dart';
+import '../../locations/widgets/location_detail.dart';
 import '../controllers/location_controller.dart';
+import '../controllers/tour_controller.dart';
+import '../models/location_model.dart';
+import '../models/tour_model.dart';
+import '../tours/tour_detail.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -19,6 +25,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   String? _locationMessage = 'Loading Location';
+
   @override
   void initState() {
     super.initState();
@@ -26,72 +33,75 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> _getCurrentLocation() async {
-    bool serviceEnabled;
-    LocationPermission permission;
-
-    // Check if location services are enabled
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      setState(() {
-        _locationMessage = 'Location services are disabled.';
-      });
-      return;
-    }
-
-    // Check for location permission and request if not granted
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
+    try {
+      LocationPermission permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied || permission == LocationPermission.deniedForever) {
         setState(() {
-          print('Location permissions are denied.');
+          _locationMessage = 'Location permissions are denied';
         });
         return;
       }
-    }
 
-    if (permission == LocationPermission.deniedForever) {
-      setState(() {
-        print('Location permissions are permanently denied.');
-      });
-      return;
-    }
+      Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+      );
 
-    // Get the current position
-    Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
-
-    // Reverse geocoding to get the place name
-    try {
-      List<Placemark> placemarks = await placemarkFromCoordinates(
+      // Convert latitude and longitude to an address
+      List<geo.Placemark> placemarks = await geo.placemarkFromCoordinates(
         position.latitude,
         position.longitude,
       );
-      Placemark place = placemarks[0];
 
+      geo.Placemark place = placemarks[0];
       setState(() {
-        _locationMessage =
-        '${place.locality}, ${place.administrativeArea}, ${place.country}';
+        _locationMessage = "${place.locality}, ${place.administrativeArea}, ${place.country}";
       });
     } catch (e) {
       setState(() {
-        _locationMessage = "Viet Nam";
-        print('Error fetching location: $e');
+        _locationMessage = 'Could not fetch location';
       });
     }
   }
 
+  void _navigateToDetails(Location location) {
+    Get.to(() => LocationDetailScreen(location: location));
+  }
+
+  void _navigateToViewAll() {
+    Get.to(() => ChangeNotifierProvider(
+      create: (_) => LocationController(),
+      child: LocationsScreen(),
+    ));
+  }
+  void _navigateToAllTours(){
+    Get.to(() => ChangeNotifierProvider(
+        create: (_) => TourController(),
+      child: AllToursScreen(),
+    ));
+  }
+
+  void onTourTap(Tour tour) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => TourDetailScreen(tourId: tour.id),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => LocationController()..fetchLocations(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => LocationController()..fetchLocations()),
+        ChangeNotifierProvider(create: (_) => TourController()..fetch4Tours()),
+      ],
       child: Scaffold(
         body: SingleChildScrollView(
           padding: const EdgeInsets.all(20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              /// Location Icon and Personalized Greeting
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -99,7 +109,7 @@ class _HomePageState extends State<HomePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text(
-                        'Hello Shanto,',
+                        'Hello Minh Huy,',
                         style: TextStyle(
                           color: Colors.black38,
                           fontSize: 18,
@@ -126,15 +136,17 @@ class _HomePageState extends State<HomePage> {
               const SizedBox(height: 5),
               const SizedBox(height: 20),
 
-              /// Search Box
+              // Search Box
               const SearchBox(),
               const SizedBox(height: 30),
 
-              /// Trending Destinations Section
-              const SectionTitle(title: 'Trending Locations'),
+              // Trending Destinations Section
+              SectionTitle(
+                title: 'Trending Locations',
+                onViewAllPressed: () => _navigateToViewAll(),
+              ),
               const SizedBox(height: 10),
 
-              /// Fetch and display trending destinations
               Consumer<LocationController>(
                 builder: (context, controller, child) {
                   if (controller.isLoading) {
@@ -142,6 +154,7 @@ class _HomePageState extends State<HomePage> {
                   } else if (controller.locations.isNotEmpty) {
                     return TrendingDestinations(
                       trendingLocations: controller.locations,
+                      onLocationTap: _navigateToDetails,
                     );
                   } else {
                     return const Center(child: Text('No locations available.'));
@@ -150,11 +163,14 @@ class _HomePageState extends State<HomePage> {
               ),
 
               const SizedBox(height: 30),
-
-              /// Popular Destinations Section
-              const SectionTitle(title: 'Popular Tours'),
+              SectionTitle(
+                title: 'Popular Tours',
+                onViewAllPressed: () => _navigateToAllTours(),
+              ),
               const SizedBox(height: 10),
-              const PopularDestinations(),
+              TourDestinations(
+                onTourTap: onTourTap, // Pass the updated onTourTap callback
+              ),
             ],
           ),
         ),

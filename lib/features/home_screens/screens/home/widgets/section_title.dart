@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:explore_now/utils/constants/sizes.dart';
 
 class SectionTitle extends StatelessWidget {
   final String title;
-  const SectionTitle({super.key, required this.title});
+  final VoidCallback onViewAllPressed;
+
+  const SectionTitle({Key? key, required this.title, required this.onViewAllPressed}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +20,7 @@ class SectionTitle extends StatelessWidget {
           ),
         ),
         TextButton(
-          onPressed: () {},
+          onPressed: onViewAllPressed,
           child: const Text(
             'View All',
             style: TextStyle(color: Colors.grey),

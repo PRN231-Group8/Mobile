@@ -3,8 +3,13 @@ import '../models/location_model.dart';
 
 class TrendingDestinations extends StatelessWidget {
   final List<Location> trendingLocations;
+  final Function(Location) onLocationTap;
 
-  const TrendingDestinations({super.key, required this.trendingLocations});
+  const TrendingDestinations({
+    Key? key,
+    required this.trendingLocations,
+    required this.onLocationTap,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,11 +19,15 @@ class TrendingDestinations extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         itemCount: trendingLocations.length,
         itemBuilder: (context, index) {
-          return TrendingCard(
-            image: trendingLocations[index].photos.isNotEmpty
-                ? trendingLocations[index].photos.first.url
-                : 'assets/images/home/home2.jpg',
-            title: trendingLocations[index].name,
+          final location = trendingLocations[index];
+          return GestureDetector(
+            onTap: () => onLocationTap(location),
+            child: TrendingCard(
+              image: location.photos.isNotEmpty
+                  ? location.photos.first.url
+                  : 'assets/images/home/home2.jpg',
+              title: location.name,
+            ),
           );
         },
       ),
@@ -30,7 +39,11 @@ class TrendingCard extends StatelessWidget {
   final String image;
   final String title;
 
-  const TrendingCard({super.key, required this.image, required this.title});
+  const TrendingCard({
+    Key? key,
+    required this.image,
+    required this.title,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -62,8 +75,11 @@ class TrendingCard extends StatelessWidget {
                         color: Colors.orange,
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      child: const Icon(Icons.emoji_events,
-                          color: Colors.white, size: 16),
+                      child: const Icon(
+                        Icons.emoji_events,
+                        color: Colors.white,
+                        size: 16,
+                      ),
                     ),
                   ),
                 ],
@@ -74,6 +90,8 @@ class TrendingCard extends StatelessWidget {
             padding: const EdgeInsets.all(8),
             child: Text(
               title,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
               style: const TextStyle(
                 color: Colors.black,
                 fontSize: 14,
