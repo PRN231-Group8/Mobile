@@ -88,8 +88,27 @@ class TSignUpForm extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: TSizes.spaceBtwSections),
+          const SizedBox(height: TSizes.spaceBtwInputFields),
 
+          /// Confirm Password
+          Obx(
+                () => TextFormField(
+              controller: controller.confirmPassword,
+              validator: controller.validateConfirmPassword,
+              obscureText: controller.hidePassword.value,
+              decoration: InputDecoration(
+                labelText: TTexts.confirmPassword,
+                prefixIcon: const Icon(Iconsax.password_check),
+                suffixIcon: IconButton(
+                    onPressed: () => controller.hidePassword.value =
+                    !controller.hidePassword.value,
+                    icon: Icon(controller.hidePassword.value
+                        ? Iconsax.eye_slash
+                        : Iconsax.eye)),
+              ),
+            ),
+          ),
+          const SizedBox(height: TSizes.spaceBtwSections),
           /// Term and conditions checkbox
           const TTermsAndConditionCheckbox(),
 

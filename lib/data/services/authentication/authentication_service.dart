@@ -34,13 +34,15 @@ class AuthenticationService {
     required String lastName,
     required String userName,
     required String password,
+    required String confirmPassword,
   }) async {
     var userRegisterInformation = {
       "email": email.trim(),
       "userName": userName.trim(),
       "password": password.trim(),
-      "firstName": firstName.trim(),
       "lastName": lastName.trim(),
+      "firstName": firstName.trim(),
+      "confirmPassword": confirmPassword.trim(),
     };
 
     try {
@@ -56,6 +58,10 @@ class AuthenticationService {
         final data = jsonDecode(response.body);
         return {"success": true, "data": data};
       } else if (response.statusCode == 400) {
+        final errorData = jsonDecode(response.body);
+        if (kDebugMode) {
+          print("Validation error data: $errorData");
+        }
         return {
           "success": false,
           "message": 'Đã xảy ra lỗi xác thực',
@@ -100,6 +106,7 @@ class AuthenticationService {
         final accessToken = responseData['token'];
         Map<String, dynamic> decodedToken = JwtDecoder.decode(accessToken);
         int? expirationTime = decodedToken['exp'];
+        await secureStorage.write(key: 'user_email', value: responseData['email']);
 
         if (expirationTime != null) {
           await secureStorage.write(key: 'token_expiration', value: expirationTime.toString());

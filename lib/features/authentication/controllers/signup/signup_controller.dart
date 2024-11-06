@@ -18,7 +18,19 @@ class SignupController extends GetxController {
   final lastName = TextEditingController();
   final userName = TextEditingController();
   final password = TextEditingController();
+  final confirmPassword = TextEditingController();
   GlobalKey<FormState> signupFormKey = GlobalKey<FormState>();
+
+  /// Method to validate confirm password
+  String? validateConfirmPassword(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Xác nhận mật khẩu bắt buộc';
+    }
+    if (value != password.text) {
+      return 'Mật khẩu xác nhận không khớp';
+    }
+    return null;
+  }
 
   void signup() async {
     try {
@@ -52,6 +64,7 @@ class SignupController extends GetxController {
         lastName: lastName.text,
         userName: userName.text,
         password: password.text,
+        confirmPassword: confirmPassword.text,
       );
 
       TFullScreenLoader.stopLoading();
