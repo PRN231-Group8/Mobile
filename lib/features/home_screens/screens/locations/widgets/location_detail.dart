@@ -100,7 +100,7 @@ class LocationDetailScreen extends StatelessWidget {
                                 ),
                                 SizedBox(height: 4),
                                 Text(
-                                  location.address.fullAddress,
+                                  location.address,
                                   style: TextStyle(color: Colors.white70),
                                 ),
                               ],

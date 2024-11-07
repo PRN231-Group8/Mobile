@@ -139,7 +139,7 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                                   : const Icon(Icons.location_on,
                                       color: Colors.blue),
                               title: Text(location.name),
-                              subtitle: Text(location.address.fullAddress),
+                              subtitle: Text(location.address),
                             ),
                           ),
                       ],

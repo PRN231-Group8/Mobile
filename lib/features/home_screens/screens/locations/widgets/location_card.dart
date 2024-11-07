@@ -43,7 +43,7 @@ class LocationCard extends StatelessWidget {
                 Text(location.name,
                     style:
                         TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-                Text(location.address.fullAddress,
+                Text(location.address,
                     style: TextStyle(color: Colors.grey[600])),
                 SizedBox(height: 5),
               ],
