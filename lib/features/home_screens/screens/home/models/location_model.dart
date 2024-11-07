@@ -1,12 +1,14 @@
-import 'photo_model.dart';
+import 'package:explore_now/features/home_screens/screens/home/models/photo_model.dart';
+
+import 'address_model.dart';
 
 class Location {
   final String id;
   final String name;
   final String description;
-  final String address;
+  final Address address;
   final String status;
-  final double temperature;
+  final double? temperature;
   final List<Photo> photos;
 
   Location({
@@ -15,22 +17,21 @@ class Location {
     required this.description,
     required this.address,
     required this.status,
-    required this.temperature,
+    this.temperature,
     required this.photos,
   });
 
   factory Location.fromJson(Map<String, dynamic> json) {
-    var photoList = json['photos'] as List;
-    List<Photo> photos = photoList.map((i) => Photo.fromJson(i)).toList();
-
     return Location(
-      id: json['id'],
-      name: json['name'],
-      description: json['description'],
-      address: json['address'],
-      status: json['status'],
-      temperature: json['temperature'].toDouble(),
-      photos: photos,
+      id: json['id'] ?? '',
+      name: json['name'] ?? '',
+      description: json['description'] ?? '',
+      address: Address.fromJson(json['address']),
+      status: json['status'] ?? '',
+      temperature: (json['temperature'] as num?)?.toDouble(),
+      photos: (json['photos'] as List?)
+          ?.map((photo) => Photo.fromJson(photo))
+          .toList() ?? [],
     );
   }
 }

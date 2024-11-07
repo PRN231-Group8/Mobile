@@ -19,7 +19,7 @@ class PaymentService {
     return token;
   }
 
-  Future<String?> initiatePayment(String tourTripId) async {
+  Future<String?> initiatePayment(String tourTripId, int numberOfPassengers) async {
     HttpClient httpClient = HttpClient();
     httpClient.badCertificateCallback = (X509Certificate cert, String host, int port) => true;
     final ioClient = IOClient(httpClient);
@@ -38,14 +38,16 @@ class PaymentService {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $accessToken',
         },
-        body: jsonEncode({'tourTripId': tourTripId}),
+        body: jsonEncode({
+          'tourTripId': tourTripId,
+          'numberOfPassengers': numberOfPassengers
+        }),
       );
 
       if (response.statusCode == 201) {
         final data = jsonDecode(response.body);
         print("Received payment initiation response: $data");
 
-        // Extract URL directly from 'result'
         final paymentUrl = data['result'] ?? '';
         if (paymentUrl.isEmpty) {
           print("Payment URL is empty in the API response.");
@@ -70,7 +72,6 @@ class PaymentService {
     httpClient.badCertificateCallback = (X509Certificate cert, String host, int port) => true;
     final ioClient = IOClient(httpClient);
 
-    // Construct the URL with query parameters
     final Uri backendCallbackUrl = Uri.parse('${TConnectionStrings.localhost}payments/callback')
         .replace(queryParameters: queryParams);
     print("API GET URL: $backendCallbackUrl");

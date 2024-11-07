@@ -72,9 +72,8 @@ class TourController with ChangeNotifier {
       notifyListeners();
     }
   }
-  Future<void> initiatePayment(BuildContext context, String tourTripId) async {
-    final paymentUrl = await _paymentService.initiatePayment(tourTripId);
-
+  Future<void> initiatePayment(BuildContext context, String tourTripId, int numberOfPassengers) async {
+    final paymentUrl = await _paymentService.initiatePayment(tourTripId, numberOfPassengers);
     if (paymentUrl != null && paymentUrl.isNotEmpty) {
       print("Navigating to Payment URL: $paymentUrl");
 
@@ -91,7 +90,7 @@ class TourController with ChangeNotifier {
           );
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Thanh toán thất bại!')),
+            SnackBar(content: Text('Thanh toán success')),
           );
         }
       });
