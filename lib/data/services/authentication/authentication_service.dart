@@ -8,9 +8,14 @@ import '../../../features/authentication/controllers/logout/logout_controller.da
 import '../../../utils/constants/connection_strings.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
+import '../../../utils/encrypt/encrypt_device_id.dart';
+import '../firebase/firebase_cloud_messaging_service.dart';
+
 class AuthenticationService {
   final http.Client _client = http.Client();
+  final encryptionUtils = TEncryptionUtils();
   final FlutterSecureStorage secureStorage = const FlutterSecureStorage();
+  final FirebaseCloudMessagingService _fcmService = FirebaseCloudMessagingService();
 
   Future<void> saveTokenExpiration(DateTime expirationTime) async {
     final box = GetStorage();
@@ -75,10 +80,16 @@ class AuthenticationService {
     }
   }
 
-  Future<dynamic> handleSignIn({required String userName, required String password,}) async {
+  Future<dynamic> handleSignIn({
+    required String userName,
+    required String password,
+  }) async {
+    String? fcmToken = await _fcmService.getFcmToken();
+    final String encryptedDeviceId = encryptionUtils.encryptDeviceId(fcmToken!);
     var userSignInInformation = {
       "userName": userName.trim().toLowerCase(),
       "password": password.trim(),
+      "deviceId": encryptedDeviceId.trim(),
     };
 
     try {
@@ -98,10 +109,12 @@ class AuthenticationService {
         final accessToken = responseData['token'];
         Map<String, dynamic> decodedToken = JwtDecoder.decode(accessToken);
         int? expirationTime = decodedToken['exp'];
-        await secureStorage.write(key: 'user_email', value: responseData['email']);
+        await secureStorage.write(
+            key: 'user_email', value: responseData['email']);
 
         if (expirationTime != null) {
-          await secureStorage.write(key: 'token_expiration', value: expirationTime.toString());
+          await secureStorage.write(
+              key: 'token_expiration', value: expirationTime.toString());
           startTokenExpirationCheck();
         }
         if (kDebugMode) {
@@ -143,7 +156,8 @@ class AuthenticationService {
 
   void startTokenExpirationCheck() {
     Timer.periodic(const Duration(minutes: 10), (timer) async {
-      String? expirationString = await secureStorage.read(key: 'token_expiration');
+      String? expirationString =
+          await secureStorage.read(key: 'token_expiration');
       if (expirationString != null) {
         int expirationTime = int.parse(expirationString);
         int currentTime = DateTime.now().millisecondsSinceEpoch ~/ 1000;

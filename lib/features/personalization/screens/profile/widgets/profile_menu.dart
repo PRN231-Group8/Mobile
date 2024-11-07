@@ -36,7 +36,10 @@ class TProfileMenu extends StatelessWidget {
             ),
             Expanded(
               flex: 4,
-              child: Text((value != null && value!.isNotEmpty) ? value! : 'Thiết lập ngay',
+              child: Text(
+                  (value != null && value!.isNotEmpty)
+                      ? value!
+                      : 'Thiết lập ngay',
                   style: (value != null && value!.isNotEmpty)
                       ? Theme.of(context).textTheme.bodyMedium
                       : Theme.of(context).textTheme.bodySmall,

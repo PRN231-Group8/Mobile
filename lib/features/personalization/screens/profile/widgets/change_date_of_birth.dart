@@ -11,14 +11,26 @@ class ChangeUserDob extends StatelessWidget {
     final controller = Get.put(UserController());
     final List<int> days = List.generate(31, (index) => index + 1);
     final List<String> months = [
-      'Một', 'Hai', 'Ba', 'Bốn', 'Năm', 'Sáu',
-      'Bảy', 'Tám', 'Chín', 'Mười', 'Mười một', 'Mười hai'
+      'Một',
+      'Hai',
+      'Ba',
+      'Bốn',
+      'Năm',
+      'Sáu',
+      'Bảy',
+      'Tám',
+      'Chín',
+      'Mười',
+      'Mười một',
+      'Mười hai'
     ];
-    final List<int> years = List.generate(100, (index) => DateTime.now().year - index);
+    final List<int> years =
+        List.generate(100, (index) => DateTime.now().year - index);
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Ngày sinh', style: Theme.of(context).textTheme.headlineSmall),
+        title:
+            Text('Ngày sinh', style: Theme.of(context).textTheme.headlineSmall),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -30,7 +42,6 @@ class ChangeUserDob extends StatelessWidget {
               style: Theme.of(context).textTheme.labelMedium,
             ),
             const SizedBox(height: 16.0),
-
             Form(
               key: controller.profileFormKey,
               child: Column(
@@ -44,7 +55,8 @@ class ChangeUserDob extends StatelessWidget {
                           items: days.map((int value) {
                             return DropdownMenuItem<int>(
                               value: value,
-                              child: Text(value.toString(), style: const TextStyle(fontSize: 14)),
+                              child: Text(value.toString(),
+                                  style: const TextStyle(fontSize: 14)),
                             );
                           }).toList(),
                           onChanged: (newValue) {
@@ -53,7 +65,8 @@ class ChangeUserDob extends StatelessWidget {
                           decoration: const InputDecoration(
                             labelText: 'Ngày',
                           ),
-                          validator: (value) => value == null ? 'Ngày không được để trống' : null,
+                          validator: (value) =>
+                              value == null ? 'Ngày không được để trống' : null,
                         ),
                       ),
                       const SizedBox(width: 8.0),
@@ -64,7 +77,8 @@ class ChangeUserDob extends StatelessWidget {
                           items: months.map((String value) {
                             return DropdownMenuItem<String>(
                               value: value,
-                              child: Text(value, style: const TextStyle(fontSize: 14)),
+                              child: Text(value,
+                                  style: const TextStyle(fontSize: 14)),
                             );
                           }).toList(),
                           onChanged: (newValue) {
@@ -73,7 +87,9 @@ class ChangeUserDob extends StatelessWidget {
                           decoration: const InputDecoration(
                             labelText: 'Tháng',
                           ),
-                          validator: (value) => value == null ? 'Tháng không được để trống' : null,
+                          validator: (value) => value == null
+                              ? 'Tháng không được để trống'
+                              : null,
                         ),
                       ),
                       const SizedBox(width: 8.0),
@@ -84,22 +100,24 @@ class ChangeUserDob extends StatelessWidget {
                           items: years.map((int value) {
                             return DropdownMenuItem<int>(
                               value: value,
-                              child: Text(value.toString(), style: const TextStyle(fontSize: 14)),
+                              child: Text(value.toString(),
+                                  style: const TextStyle(fontSize: 14)),
                             );
                           }).toList(),
                           onChanged: (newValue) {
-                            controller.year.value = newValue ?? DateTime.now().year;
+                            controller.year.value =
+                                newValue ?? DateTime.now().year;
                           },
                           decoration: const InputDecoration(
                             labelText: 'Năm',
                           ),
-                          validator: (value) => value == null ? 'Năm không được để trống' : null,
+                          validator: (value) =>
+                              value == null ? 'Năm không được để trống' : null,
                         ),
                       ),
                     ],
                   ),
                   const SizedBox(height: 16.0),
-
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
@@ -124,4 +142,3 @@ class ChangeUserDob extends StatelessWidget {
     );
   }
 }
-

@@ -72,21 +72,16 @@ class UserModel {
     };
   }
 
-// Factory method to create a UserModel from a Firebase document snapshot.
-//   factory UserModel.fromSnapshot(
-//       DocumentSnapshot<Map<String, dynamic>> document) {
-//     if (document.data() == null) {
-//       return UserModel.empty();
-//     }
-//     final data = document.data()!;
-//     return UserModel(
-//         id: document.id,
-//         firstName: data['FirstName'] ?? '',
-//         lastName: data['LastName'] ?? '',
-//         // username: data['Username'] ?? '',
-//         email: data['Email'] ?? '',
-//         phoneNumber: data['PhoneNumber'] ?? '',
-//         profilePicture: data['ProfilePicture'] ?? '',
-//         roles: List<String>.from(data['Roles'] ?? []));
-//   }
+  /// Factory method to create a UserModel from a JSON map.
+  factory UserModel.fromJson(Map<String, dynamic> json) {
+    return UserModel(
+      id: json['userId'] ?? '', // Updated to match the JSON response
+      firstName: json['firstName'] ?? '',
+      lastName: json['lastName'] ?? '',
+      email: json['email'] ?? '',
+      phoneNumber: json['phoneNumber'] ?? '',
+      profilePicture: json['avatarPath'] ?? '', // Updated to match the JSON response
+      roles: List<String>.from(json['roles'] ?? []),
+    );
+  }
 }

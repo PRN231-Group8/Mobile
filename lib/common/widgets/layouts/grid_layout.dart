@@ -6,7 +6,7 @@ class TGridLayout extends StatelessWidget {
     super.key,
     required this.itemCount,
     required this.itemBuilder,
-    this.mainAxisExtent = 282,
+    this.mainAxisExtent = 350,
   });
 
   final int itemCount;
@@ -21,7 +21,7 @@ class TGridLayout extends StatelessWidget {
       padding: EdgeInsets.zero,
       physics: const NeverScrollableScrollPhysics(),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
+          crossAxisCount: 1,
           mainAxisSpacing: TSizes.gridViewSpacing,
           crossAxisSpacing: TSizes.gridViewSpacing,
           mainAxisExtent: mainAxisExtent),

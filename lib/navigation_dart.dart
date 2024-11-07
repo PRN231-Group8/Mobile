@@ -5,8 +5,8 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:animations/animations.dart';
 
-import 'features/daily_check_in/screens/home/home.dart';
 import 'features/personalization/screens/settings/setting.dart';
+import 'features/tour_post/screens/user_post/user_post.dart';
 
 class NavigationMenu extends StatelessWidget {
   const NavigationMenu({super.key});
@@ -51,8 +51,8 @@ class NavigationMenu extends StatelessWidget {
                   label: 'Điểm danh',
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Iconsax.chart_1),
-                  label: 'Thống kê',
+                  icon: Icon(Iconsax.picture_frame),
+                  label: 'Bài viết',
                 ),
                 BottomNavigationBarItem(
                   icon: SizedBox.shrink(),
@@ -112,8 +112,8 @@ class NavigationController extends GetxController {
   final Rx<int> selectedIndex = 0.obs;
 
   final screens = [
-    const HomeScreen(),
-    Container(color: Colors.purple),
+    Container(color: Colors.red),
+    const PostScreen(),
     Container(color: Colors.yellow),
     Container(color: Colors.green),
     const SettingsScreen(),
