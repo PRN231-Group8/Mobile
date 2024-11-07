@@ -12,9 +12,14 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 import '../../../features/authentication/controllers/logout/logout_controller.dart';
 import '../../../utils/constants/connection_strings.dart';
 
+import '../../../utils/encrypt/encrypt_device_id.dart';
+import '../firebase/firebase_cloud_messaging_service.dart';
+
 class AuthenticationService {
   final http.Client _client = http.Client();
+  final encryptionUtils = TEncryptionUtils();
   final FlutterSecureStorage secureStorage = const FlutterSecureStorage();
+  final FirebaseCloudMessagingService _fcmService = FirebaseCloudMessagingService();
 
   Future<void> saveTokenExpiration(DateTime expirationTime) async {
     final box = GetStorage();
@@ -83,9 +88,13 @@ class AuthenticationService {
     required String userName,
     required String password,
   }) async {
+    String? fcmToken = await _fcmService.getFcmToken();
+    final String encryptedDeviceId = encryptionUtils.encryptDeviceId(fcmToken!);
+
     var userSignInInformation = {
       "userName": userName.trim().toLowerCase(),
       "password": password.trim(),
+      "deviceId": encryptedDeviceId.trim(),
     };
 
     try {

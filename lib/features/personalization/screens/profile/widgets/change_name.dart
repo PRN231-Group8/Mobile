@@ -8,7 +8,6 @@ import '../../../../../utils/constants/text_strings.dart';
 import '../../../../../utils/validators/validation.dart';
 import '../../../controllers/user_controller.dart';
 
-
 class ChangeUserName extends StatelessWidget {
   const ChangeUserName({super.key});
 
@@ -19,7 +18,8 @@ class ChangeUserName extends StatelessWidget {
       // Custom Appbar
       appBar: TAppBar(
         showBackArrow: true,
-        title: Text('Họ và tên', style: Theme.of(context).textTheme.headlineSmall),
+        title:
+            Text('Họ và tên', style: Theme.of(context).textTheme.headlineSmall),
       ),
       // AppBar
       body: Padding(
@@ -42,17 +42,23 @@ class ChangeUserName extends StatelessWidget {
                 children: [
                   TextFormField(
                     controller: controller.firstName,
-                    validator: (value) => TValidator.validateEmptyText('Họ', value),
+                    validator: (value) =>
+                        TValidator.validateEmptyText('Họ', value),
                     expands: false,
-                    decoration: const InputDecoration(labelText: TTexts.firstName, prefixIcon: Icon(Iconsax.user)),
+                    decoration: const InputDecoration(
+                        labelText: TTexts.firstName,
+                        prefixIcon: Icon(Iconsax.user)),
                   ),
                   // TextFormField
                   const SizedBox(height: TSizes.spaceBtwInputFields),
                   TextFormField(
                     controller: controller.lastName,
-                    validator: (value) => TValidator.validateEmptyText('Tên', value),
+                    validator: (value) =>
+                        TValidator.validateEmptyText('Tên', value),
                     expands: false,
-                    decoration: const InputDecoration(labelText: TTexts.lastName, prefixIcon: Icon(Iconsax.user)),
+                    decoration: const InputDecoration(
+                        labelText: TTexts.lastName,
+                        prefixIcon: Icon(Iconsax.user)),
                   ),
                 ],
               ),
@@ -62,7 +68,9 @@ class ChangeUserName extends StatelessWidget {
             // Save Button
             SizedBox(
               width: double.infinity,
-              child: ElevatedButton(onPressed: () => controller.updateUserProfile(), child: const Text('Lưu')),
+              child: ElevatedButton(
+                  onPressed: () => controller.updateUserProfile(),
+                  child: const Text('Lưu')),
             ),
             // SizedBox
           ],

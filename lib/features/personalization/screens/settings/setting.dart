@@ -17,7 +17,6 @@ import '../../../authentication/controllers/logout/logout_controller.dart';
 import '../../controllers/user_controller.dart';
 import '../profile/profile.dart';
 
-
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
 
@@ -81,7 +80,8 @@ class SettingsScreenState extends State<SettingsScreen> {
     if (status.isGranted) {
       setState(() {
         _notificationEnabled = true;
-        _isNotificationLocked = true; // Lock the notification switch after enabling
+        _isNotificationLocked =
+            true; // Lock the notification switch after enabling
       });
     } else if (status.isDenied || status.isRestricted) {
       _showNotificationPermissionDialog();
@@ -149,20 +149,25 @@ class SettingsScreenState extends State<SettingsScreen> {
 
                   ///User Profile Card
                   Obx(() {
-                    final profilePicture = userController.userUpdateProfile['result']?['avatarPath'];
-                    final networkImage = (profilePicture == null || profilePicture == "null")
-                        ? TImages.userImage2
-                        : profilePicture;
+                    final profilePicture = userController
+                        .userUpdateProfile['result']?['avatarPath'];
+                    final networkImage =
+                        (profilePicture == null || profilePicture == "null")
+                            ? TImages.userImage2
+                            : profilePicture;
 
                     if (userController.profileLoading.value) {
                       return const TShimmerEffect(width: 300, height: 50);
                     } else {
                       return TUserProfileTitle(
                         onPressed: () => Get.to(() => const ProfileScreen()),
-                        fullName: '${userController.firstName.text} ${userController.lastName.text}', // Ensure these are used correctly
+                        fullName:
+                            '${userController.firstName.text} ${userController.lastName.text}',
+                        // Ensure these are used correctly
                         email: userController.email.text,
                         profilePicture: networkImage,
-                        isNetworkImage: !(profilePicture == null || profilePicture == "null"),
+                        isNetworkImage: !(profilePicture == null ||
+                            profilePicture == "null"),
                       );
                     }
                   }),
@@ -222,16 +227,19 @@ class SettingsScreenState extends State<SettingsScreen> {
                     subtitle: 'Cài đặt vị trí hiện tại',
                     trailing: Switch(
                       value: _locationSharingEnabled,
-                      onChanged: _isLocationLocked ? null : (value) async {
-                        if (value) {
-                          await _requestLocationPermission();
-                        } else {
-                          setState(() {
-                            _locationSharingEnabled = false;
-                          });
-                        }
-                      },
-                      activeColor: _isLocationLocked ? Colors.grey : TColors.primary,
+                      onChanged: _isLocationLocked
+                          ? null
+                          : (value) async {
+                              if (value) {
+                                await _requestLocationPermission();
+                              } else {
+                                setState(() {
+                                  _locationSharingEnabled = false;
+                                });
+                              }
+                            },
+                      activeColor:
+                          _isLocationLocked ? Colors.grey : TColors.primary,
                       inactiveThumbColor: Colors.grey,
                     ),
                   ),
@@ -243,16 +251,19 @@ class SettingsScreenState extends State<SettingsScreen> {
                     subtitle: 'Cho phép thông báo',
                     trailing: Switch(
                       value: _notificationEnabled,
-                      onChanged: _isNotificationLocked ? null : (value) async {
-                        if (value) {
-                          await _requestNotificationPermission();
-                        } else {
-                          setState(() {
-                            _notificationEnabled = false;
-                          });
-                        }
-                      },
-                      activeColor: _isNotificationLocked ? Colors.grey : TColors.primary,
+                      onChanged: _isNotificationLocked
+                          ? null
+                          : (value) async {
+                              if (value) {
+                                await _requestNotificationPermission();
+                              } else {
+                                setState(() {
+                                  _notificationEnabled = false;
+                                });
+                              }
+                            },
+                      activeColor:
+                          _isNotificationLocked ? Colors.grey : TColors.primary,
                       inactiveThumbColor: Colors.grey,
                     ),
                   ),

@@ -29,7 +29,6 @@ class UserController extends GetxController {
   var month = 'Một'.obs;
   var year = DateTime.now().year.obs;
 
-
   @override
   void onInit() {
     super.onInit();
@@ -48,17 +47,17 @@ class UserController extends GetxController {
         lastName.text = userUpdateProfile['result']['lastName'];
         dob.text = userUpdateProfile['result']['dob']?.toString() ?? '';
         gender.text = userUpdateProfile['result']['gender']?.toString() ?? '';
-        email.text=(await secureStorage.read(key: 'user_email'))!;
-        userName.text=(await secureStorage.read(key: 'user_name'))!;
+        email.text = (await secureStorage.read(key: 'user_email'))!;
+        userName.text = (await secureStorage.read(key: 'user_name'))!;
         profileLoading.value = false;
       } else {
-       return;
+        return;
       }
     } catch (e) {
       if (kDebugMode) {
         print(e);
       }
-    }finally{
+    } finally {
       profileLoading.value = false;
     }
   }
@@ -73,10 +72,11 @@ class UserController extends GetxController {
         "avatarPath": userUpdateProfile['result']?['avatarPath'],
       };
 
-      final result = await UserProfileService().updateUserProfile(updatedFields);
+      final result =
+          await UserProfileService().updateUserProfile(updatedFields);
       if (result['success'] == true) {
         await loadUserProfile();
-        Get.off(()=>const ProfileScreen());
+        Get.off(() => const ProfileScreen());
         TLoaders.successSnackBar(
             title: 'Thành công', message: 'Cập nhật thành công');
       } else {
@@ -101,7 +101,7 @@ class UserController extends GetxController {
             'Đang xử lí chờ xíu...', TImages.screenLoadingSparkle4);
 
         final result =
-        await UserProfileService().updateUserProfilePicture(image);
+            await UserProfileService().updateUserProfilePicture(image);
         imageUploading.value = false;
         TFullScreenLoader.stopLoading();
 

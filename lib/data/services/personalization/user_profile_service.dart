@@ -61,6 +61,7 @@ class UserProfileService {
 
   Future<Map<String, Object>> updateUserProfilePicture(XFile image) async {
     String? accessToken = await getAccessToken();
+
     try {
       var request = http.MultipartRequest(
         'POST',
