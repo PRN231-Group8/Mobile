@@ -45,7 +45,7 @@ class PushNotificationService {
       BuildContext context, String message, String userName) async {
     final String serverAccessToken = await getAccessToken();
     String endpointFirebaseCloudMessaging =
-        'https://fcm.googleapis.com/v1/projects/clar-ai/messages:send';
+        'https://fcm.googleapis.com/v1/projects/explore-now-travel/messages:send';
     final Map<String, dynamic> chatNotification = {
       'message': {
         'token': deviceToken,

@@ -174,4 +174,59 @@ class TourPostService {
       return false;
     }
   }
+
+  Future<bool> updatePost({
+    required String postId,
+    required String content,
+    required String status,
+    bool removeAllComments = false,
+    List<String> commentsToRemove = const [],
+    bool removeAllPhotos = false,
+    List<String> photosToRemove = const [],
+  }) async {
+    String? accessToken = await getAccessToken();
+    if (accessToken == null) {
+      throw Exception("No access token found");
+    }
+
+    final url = '${TConnectionStrings.deployment}posts/$postId';
+    final headers = {
+      'Authorization': 'Bearer $accessToken',
+      'Content-Type': 'application/json',
+    };
+
+    final body = jsonEncode({
+      "content": content,
+      "status": status,
+      "removeAllComments": removeAllComments,
+      "commentsToRemove": commentsToRemove,
+      "removeAllPhotos": removeAllPhotos,
+      "photosToRemove": photosToRemove,
+    });
+    if (kDebugMode) {
+      print("Request body: $body");
+    }
+
+    try {
+      final response = await client.put(
+        Uri.parse(url),
+        headers: headers,
+        body: body,
+      );
+
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        if (kDebugMode) {
+          print("Failed to update post: ${response.body}");
+        }
+        return false;
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print("Error updating post: $e");
+      }
+      return false;
+    }
+  }
 }

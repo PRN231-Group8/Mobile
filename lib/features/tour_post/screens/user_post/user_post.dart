@@ -14,7 +14,7 @@ class PostScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(PostController());
+    final controller = Get.put(PostController(), permanent: true);
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: SingleChildScrollView(

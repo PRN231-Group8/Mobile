@@ -10,9 +10,11 @@ import '../../../../features/tour_post/controllers/user_post_controller.dart';
 import '../../../../features/tour_post/models/comment_model.dart';
 import '../../../../features/tour_post/models/photo_model.dart';
 import '../../../../features/tour_post/screens/user_post/widgets/post_images.dart';
+import '../../../../features/tour_post/screens/user_post/widgets/update_post.dart';
 import '../../../../utils/constants/colors.dart';
 import '../../../../utils/constants/image_strings.dart';
 import '../../../../utils/constants/sizes.dart';
+import '../../../../utils/encrypt/encrypt_device_id.dart';
 import '../../../../utils/helpers/helper_functions.dart';
 import '../../../styles/shadows.dart';
 import '../../custom_shapes/containers/rounded_container.dart';
@@ -104,6 +106,14 @@ class TPostCardVertical extends StatelessWidget {
                             } else if (value == 'Delete' && !isOwner) {
                               Get.snackbar('Unauthorized',
                                   'You are not the owner of this post.');
+                            } else if (value == 'Edit' && isOwner) {
+                              Get.to(UpdatePostScreen(
+                                postId: post.postsId,
+                                initialContent: post.content,
+                                initialImages: post.photos
+                                    .map((photo) => {'id': photo.id, 'url': photo.url})
+                                    .toList(),
+                              ));
                             }
                           },
                           itemBuilder: (BuildContext context) => [
@@ -111,7 +121,7 @@ class TPostCardVertical extends StatelessWidget {
                               value: 'Report',
                               child: Row(
                                 children: [
-                                  Icon(Iconsax.warning_2, color: Colors.red),
+                                  Icon(Iconsax.warning_2, color: Colors.yellow),
                                   SizedBox(width: 8),
                                   Text('Báo cáo'),
                                 ],
@@ -119,15 +129,25 @@ class TPostCardVertical extends StatelessWidget {
                             ),
                             if (isOwner)
                               const PopupMenuItem(
-                                value: 'Delete',
+                                value: 'Edit',
                                 child: Row(
                                   children: [
-                                    Icon(Iconsax.trash, color: Colors.red),
+                                    Icon(Iconsax.pen_add, color: Colors.white),
                                     SizedBox(width: 8),
-                                    Text('Xóa bài viết'),
+                                    Text('Chỉnh sửa bài viết'),
                                   ],
                                 ),
                               ),
+                            const PopupMenuItem(
+                              value: 'Delete',
+                              child: Row(
+                                children: [
+                                  Icon(Iconsax.trash, color: Colors.red),
+                                  SizedBox(width: 8),
+                                  Text('Xóa bài viết'),
+                                ],
+                              ),
+                            ),
                           ],
                         );
                       },
@@ -370,7 +390,7 @@ class TPostCardVertical extends StatelessWidget {
           child: SingleChildScrollView(
             child: Container(
               padding: const EdgeInsets.all(16.0),
-              height: 450,
+              height: 500,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -413,12 +433,10 @@ class TPostCardVertical extends StatelessWidget {
                                           fontWeight: FontWeight.bold,
                                           fontSize: 14),
                                     ),
-                                    const SizedBox(height: 5),
                                     Text(
                                       comment.content,
                                       style: const TextStyle(fontSize: 14),
                                     ),
-                                    const SizedBox(height: 5),
                                     Text(
                                       THelperFunctions.formatCommentTimestamp(
                                           comment.createdDate),
@@ -434,8 +452,6 @@ class TPostCardVertical extends StatelessWidget {
                       },
                     ),
                   ),
-                  const Divider(height: 1),
-                  const SizedBox(height: 5),
                   Padding(
                     padding: EdgeInsets.only(
                         bottom: MediaQuery.of(context).viewInsets.bottom),
@@ -480,6 +496,7 @@ class TPostCardVertical extends StatelessWidget {
                             if (commentController.text.trim().isNotEmpty) {
                               _addComment(commentController.text.trim());
                               commentController.clear();
+                              Navigator.of(Get.overlayContext!).pop();
                             }
                           },
                         ),
@@ -495,9 +512,22 @@ class TPostCardVertical extends StatelessWidget {
     );
   }
 
-  void _addComment(String content) {
+  Future<void> _addComment(String content) async {
     final postController = Get.put(PostController());
     postController.addComment(content, post.postsId);
+    final postUserId = post.user.id;
+    final currentUserId = await secureStorage.read(key: 'user_id');
+
+    if (currentUserId != postUserId) {
+      final encryptedDeviceId = post.user.deviceId;
+      final decryptedDeviceId =
+          TEncryptionUtils().decryptDeviceId(encryptedDeviceId);
+
+      final senderName = await secureStorage.read(key: 'user_name');
+
+      await postController.notifyUserOfNewComment(
+          decryptedDeviceId, content, senderName!);
+    }
   }
 
   void deletePostWarningPopup() {

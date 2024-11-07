@@ -6,6 +6,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:animations/animations.dart';
 
 import 'features/home_screens/screens/home/home.dart';
+import 'features/personalization/screens/booking/booking_history.dart';
 import 'features/personalization/screens/settings/setting.dart';
 import 'features/tour_post/screens/user_post/user_post.dart';
 
@@ -113,11 +114,10 @@ class NavigationController extends GetxController {
   final Rx<int> selectedIndex = 0.obs;
 
   final screens = [
-    Container(color: Colors.red),
-    const PostScreen(),
-    Container(color: Colors.yellow),
     const HomeScreen(),
-    Container(color: Colors.green),
+    const PostScreen(),
+    const HomeScreen(),
+    const BookingHistoryScreen(),
     const SettingsScreen(),
   ];
 }

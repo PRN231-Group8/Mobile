@@ -2,6 +2,7 @@ import 'package:explore_now/features/home_screens/screens/home/widgets/popular_d
 import 'package:explore_now/features/home_screens/screens/home/widgets/search_box.dart';
 import 'package:explore_now/features/home_screens/screens/home/widgets/section_title.dart';
 import 'package:explore_now/features/home_screens/screens/home/widgets/trending_locations.dart';
+import 'package:explore_now/features/personalization/screens/settings/setting.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../../personalization/screens/booking/booking_history.dart';

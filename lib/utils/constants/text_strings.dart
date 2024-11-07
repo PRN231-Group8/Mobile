@@ -1,11 +1,11 @@
 class TTexts {
 
-static const String onBoardingTitle1 = "Lựa chọn hàng đầu về món nướng";
-static const String onBoardingTitle2 = "Giao hàng thần tốc";
-static const String onBoardingTitle3 = "Thanh toán dễ dàng";
-static const String onBoardingSubTitle1 = "Băn khoăn không biết ăn gì cùng bạn bè? Hãy để chúng tôi là lựa chọn số 1 của bạn về đồ nướng Hàn Quốc";
-static const String onBoardingSubTitle2 = "Đặt combo giao hàng tận nhà nhanh chóng lấp đầy chiếc bụng đói của bạn với những món ngon yêu thích và dịch vụ giao hàng “thần tốc”.";
-static const String onBoardingSubTitle3 = "Giao và nhận đồ ăn thật dễ dàng. Có thể thanh toán bằng rất nhiều hình thức.";
+static const String onBoardingTitle1 = "Đặt tour trực tuyến";
+static const String onBoardingTitle2 = "Thông tin chi tiết về các điểm đến";
+static const String onBoardingTitle3 = "Chia sẻ bài viết du lịch";
+static const String onBoardingSubTitle1 = "Người dùng có thể duyệt và đặt các tour du lịch trong nước hoặc quốc tế, với các gói tour đa dạng, dễ dàng chọn lựa qua giao diện thân thiện";
+static const String onBoardingSubTitle2 = "Cung cấp thông tin chi tiết về các điểm tham quan, lịch trình, đánh giá từ khách hàng trước, giúp người dùng đưa ra quyết định tour phù hợp";
+static const String onBoardingSubTitle3 = "Người dùng có thể tạo và chia sẻ bài viết về trải nghiệm du lịch, giúp cộng đồng khám phá các địa điểm mới";
 
 static const String homeAppbarTitle1 = "Feel Good, Look Great";
 static const String homeAppbarTitle2 = "Comfort and Cheer in Every Tee";

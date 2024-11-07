@@ -1,4 +1,4 @@
-import 'package:explore_now/common/widgets/appbar/tappbar.dart';
+import 'package:explore_now/common/widgets/appbar/home_app_bar.dart';
 import 'package:explore_now/features/home_screens/screens/home/widgets/home_page.dart';
 import 'package:flutter/material.dart';
 
@@ -20,7 +20,7 @@ class HomeScreen extends StatelessWidget {
         backgroundColor: Colors.orange,
         showBackArrow: false,
       ),
-      body: const HomePage(),
+      body: HomePage(),
     );
   }
 }

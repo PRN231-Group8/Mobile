@@ -125,13 +125,13 @@ class THelperFunctions {
   static String formatCommentTimestamp(DateTime dateTime) {
     final duration = DateTime.now().difference(dateTime);
     if (duration.inDays >= 1) {
-      return '${duration.inDays}d ago';
+      return '${duration.inDays} ngày';
     } else if (duration.inHours >= 1) {
-      return '${duration.inHours}h ago';
+      return '${duration.inHours} tiếng';
     } else if (duration.inMinutes >= 1) {
-      return '${duration.inMinutes}m ago';
+      return '${duration.inMinutes} phút';
     } else {
-      return 'Just now';
+      return 'Vừa xong';
     }
   }
 }
