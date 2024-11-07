@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-import '../../locations/widgets/location_detail.dart';
 import '../controllers/tour_controller.dart';
+import '../locations/widgets/location_detail.dart';
 
 class TourDetailScreen extends StatefulWidget {
   final String tourId;

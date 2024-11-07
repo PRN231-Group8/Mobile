@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../home/models/location_model.dart';
+import '../../models/location_model.dart';
 
 class LocationCard extends StatelessWidget {
   final Location location;
