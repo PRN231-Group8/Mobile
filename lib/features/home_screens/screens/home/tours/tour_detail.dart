@@ -21,10 +21,12 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => TourController()..fetchTourById(widget.tourId),
+      create: (_) =>
+      TourController()
+        ..fetchTourById(widget.tourId),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Tour Details'),
+          title: const Text('Tour chi tiết'),
           backgroundColor: Colors.transparent,
           elevation: 0,
         ),
@@ -36,7 +38,7 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
 
             final tour = controller.tourDetail;
             if (tour == null) {
-              return const Center(child: Text('No tour details available.'));
+              return const Center(child: Text('Không có tour có sẵn.'));
             }
 
             return Stack(
@@ -64,14 +66,14 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                           height: 200,
                           color: Colors.grey.shade200,
                           child: const Center(
-                            child: Text('No Image Available'),
+                            child: Text('Không có ảnh.'),
                           ),
                         ),
                       const SizedBox(height: 16),
 
                       // Title and Description
                       Text(
-                        tour.title ?? 'No title available',
+                        tour.title ?? 'không có tiêu đề',
                         style: const TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
@@ -79,7 +81,7 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        tour.description ?? 'No description available',
+                        tour.description ?? 'Không có chi tiết',
                         style: const TextStyle(
                             fontSize: 16, color: Colors.black87),
                       ),
@@ -87,7 +89,13 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
 
                       // Dates
                       Text(
-                        'Duration: ${tour.startDate != null ? DateFormat('dd/MM/yyyy, hh:mm a').format(tour.startDate!) : 'N/A'} - ${tour.endDate != null ? DateFormat('dd/MM/yy, hh:mm a').format(tour.endDate!) : 'N/A'}',
+                        'Lộ trình: ${tour.startDate != null
+                            ? DateFormat('dd/MM/yyyy, hh:mm a').format(tour
+                            .startDate!)
+                            : 'N/A'} - ${tour.endDate != null
+                            ? DateFormat('dd/MM/yy, hh:mm a').format(tour
+                            .endDate!)
+                            : 'N/A'}',
                         style: const TextStyle(
                             fontSize: 16, color: Colors.black54),
                       ),
@@ -95,7 +103,8 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
 
                       // Price
                       Text(
-                        'Price: ${NumberFormat.currency(locale: 'vi', symbol: '₫').format(tour.totalPrice)}',
+                        'Giá: ${NumberFormat.currency(locale: 'vi', symbol: '₫')
+                            .format(tour.totalPrice)}',
                         style: const TextStyle(
                           fontSize: 18,
                           color: Colors.blue,
@@ -107,7 +116,7 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                       // Locations in Tour
                       if (tour.locationInTours.isNotEmpty) ...[
                         const Text(
-                          'Locations:',
+                          'Địa điểm:',
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -148,7 +157,7 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                       // Tour Timestamps (Schedule)
                       if (tour.tourTimestamps.isNotEmpty) ...[
                         const Text(
-                          'Schedule:',
+                          'Lịch trình:',
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -159,21 +168,25 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                           ListTile(
                             title: Text(timestamp.title),
                             subtitle: Text(
-                              '${timestamp.description}\nTime: ${timestamp.preferredTimeSlot?.startTime ?? ''} - ${timestamp.preferredTimeSlot?.endTime ?? ''}',
+                              '${timestamp.description}\nTime: ${timestamp
+                                  .preferredTimeSlot?.startTime ??
+                                  ''} - ${timestamp.preferredTimeSlot
+                                  ?.endTime ?? ''}',
                             ),
                           ),
-                      ] else ...[
-                        const Text(
-                          'No schedule available.',
-                          style: TextStyle(fontSize: 16, color: Colors.grey),
-                        ),
-                      ],
+                      ] else
+                        ...[
+                          const Text(
+                            'No schedule available.',
+                            style: TextStyle(fontSize: 16, color: Colors.grey),
+                          ),
+                        ],
                       const SizedBox(height: 24),
 
                       // Tour Trips
                       if (tour.tourTrips.isNotEmpty) ...[
                         const Text(
-                          'Trips:',
+                          'Chuyến đi:',
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -183,12 +196,15 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                         for (var trip in tour.tourTrips)
                           ListTile(
                             title: Text(
-                                'Trip Date: ${DateFormat('dd/MM/yyyy hh:mm a').format(trip.tripDate.toLocal())}'),
+                                'Ngày đi: ${DateFormat('dd/MM/yyyy hh:mm a')
+                                    .format(trip.tripDate.toLocal())}'),
                             subtitle: Text(
-                              'Status: ${trip.tripStatus}, '
-                                  'Price: ${NumberFormat.currency(locale: 'vi', symbol: '₫').format(trip.price)}, '
-                                  'Booked Seats: ${trip.bookedSeats}, '
-                                  'Total Seats: ${trip.totalSeats}',
+                              'Trạng thái: ${trip.tripStatus}, '
+                                  'Giá: ${NumberFormat.currency(
+                                  locale: 'vi', symbol: '₫').format(
+                                  trip.price)}, '
+                                  'Số ghế đã đặt: ${trip.bookedSeats}, '
+                                  'Tổng số ghế: ${trip.totalSeats}',
                             ),
                             onTap: () {
                               _showTourTripDetailDialog(context, trip);
@@ -225,7 +241,7 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                     ),
                     icon: const Icon(Icons.send, color: Colors.white),
                     label: const Text(
-                      'Book Now',
+                      'Book Ngay',
                       style: TextStyle(fontSize: 18, color: Colors.white),
                     ),
                   ),
@@ -239,8 +255,8 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
   }
 
   // Method to display tour trip detail dialog with passenger input
-  Future<void> _showTourTripDetailDialog(
-      BuildContext context, dynamic trip) async {
+  Future<void> _showTourTripDetailDialog(BuildContext context,
+      dynamic trip) async {
     final maxPassengers = trip.totalSeats - trip.bookedSeats;
     final passengerController = TextEditingController();
 
@@ -252,55 +268,62 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
 
     await showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text('Trip Details'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-                'Date: ${DateFormat('dd/MM/yyyy, hh:mm a').format(trip.tripDate.toLocal())}'),
-            Text(
-                'Price: ${NumberFormat.currency(locale: 'vi', symbol: '₫').format(trip.price)}'),
-            Text(
-                'Total Seats: ${trip.totalSeats}, Booked: ${trip.bookedSeats}'),
-            const SizedBox(height: 16),
-            TextField(
-              controller: passengerController,
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                hintText: 'Enter passengers (Max: $maxPassengers)',
-                labelText: 'Number of Passengers',
-              ),
+      builder: (context) =>
+          AlertDialog(
+            title: Text('Chi tiết chuyến đi'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                    'Ngày: ${DateFormat('dd/MM/yyyy, hh:mm a').format(
+                        trip.tripDate.toLocal())}'),
+                Text(
+                    'Giá: ${NumberFormat.currency(locale: 'vi', symbol: '₫')
+                        .format(trip.price)}'),
+                Text(
+                    'Tổng số ghế: ${trip.totalSeats}, Đã đặt: ${trip
+                        .bookedSeats}'),
+                const SizedBox(height: 16),
+                TextField(
+                  controller: passengerController,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    hintText: 'Nhập số hành khách (Tối đa: $maxPassengers)',
+                    labelText: 'Số lượng hành khách',
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Hủy'),
+              ),
+              TextButton(
+                onPressed: () {
+                  final enteredPassengers =
+                      int.tryParse(passengerController.text) ?? 0;
+                  if (enteredPassengers > 0 &&
+                      enteredPassengers <= maxPassengers) {
+                    setState(() {
+                      selectedTourTripId = trip.tourTripId;
+                      selectedPassengers = enteredPassengers;
+                    });
+                    Navigator.pop(context);
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                          content:
+                          Text(
+                              'Số lượng hành khách không hợp lệ. Tối đa: $maxPassengers')),
+                    );
+                  }
+                },
+                child: const Text('Xác nhận'),
+              ),
+            ],
           ),
-          TextButton(
-            onPressed: () {
-              final enteredPassengers =
-                  int.tryParse(passengerController.text) ?? 0;
-              if (enteredPassengers > 0 && enteredPassengers <= maxPassengers) {
-                setState(() {
-                  selectedTourTripId = trip.tourTripId;
-                  selectedPassengers = enteredPassengers;
-                });
-                Navigator.pop(context);
-              } else {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                      content:
-                      Text('Invalid passenger count. Max: $maxPassengers')),
-                );
-              }
-            },
-            child: const Text('Confirm'),
-          ),
-        ],
-      ),
     );
   }
 }
+

@@ -14,7 +14,7 @@ class BookingHistoryScreen extends StatelessWidget {
       create: (_) => BookingHistoryController()..fetchBookingHistory(),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Booking History'),
+          title: const Text('Lịch sử Đặt Chỗ'),
         ),
         body: Consumer<BookingHistoryController>(
           builder: (context, controller, child) {
@@ -23,17 +23,13 @@ class BookingHistoryScreen extends StatelessWidget {
             } else if (controller.errorMessage != null) {
               return Center(child: Text(controller.errorMessage!));
             } else if (controller.bookingHistory.isEmpty) {
-              return const Center(child: Text('No bookings available.'));
+              return const Center(child: Text('Không có đặt chỗ nào.'));
             } else {
               return ListView.builder(
                 padding: const EdgeInsets.all(16.0),
                 itemCount: controller.bookingHistory.length,
                 itemBuilder: (context, index) {
                   final booking = controller.bookingHistory[index];
-                  final mainImage = booking.tourTimestamps.isNotEmpty &&
-                      booking.tourTimestamps[0].location?.photos.isNotEmpty == true
-                      ? booking.tourTimestamps[0].location!.photos[0].url
-                      : null;
 
                   return GestureDetector(
                     onTap: () {
@@ -52,57 +48,21 @@ class BookingHistoryScreen extends StatelessWidget {
                       margin: const EdgeInsets.only(bottom: 16),
                       child: Padding(
                         padding: const EdgeInsets.all(16.0),
-                        child: Row(
+                        child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            if (mainImage != null)
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(8),
-                                child: Image.network(
-                                  mainImage,
-                                  width: 80,
-                                  height: 80,
-                                  fit: BoxFit.cover,
-                                ),
-                              )
-                            else
-                              Container(
-                                width: 80,
-                                height: 80,
-                                color: Colors.grey[300],
-                                child: const Icon(Icons.image, size: 40, color: Colors.grey),
+                            Text(
+                              'Tổng Giá: ${NumberFormat.currency(locale: 'vi', symbol: '₫').format(booking.totalPrice)}',
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.deepPurple,
                               ),
-                            const SizedBox(width: 16),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    booking.title,
-                                    style: const TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 4),
-                                  Text(
-                                    booking.description,
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.black54,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 8),
-                                  Text(
-                                    '${NumberFormat.currency(locale: 'vi', symbol: '₫').format(booking.totalPrice)}',
-                                    style: const TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.deepPurple,
-                                    ),
-                                  ),
-                                ],
-                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              'Ngày Kết Thúc: ${DateFormat('dd/MM/yyyy').format(booking.endDate)}',
+                              style: const TextStyle(fontSize: 16),
                             ),
                           ],
                         ),

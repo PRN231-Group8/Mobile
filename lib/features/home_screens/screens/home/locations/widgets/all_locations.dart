@@ -15,7 +15,7 @@ class LocationsScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Popular Places'),
+        title: Text('Những địa điểm ưu thích'),
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
