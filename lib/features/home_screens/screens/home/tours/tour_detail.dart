@@ -1,0 +1,306 @@
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+
+import '../controllers/tour_controller.dart';
+import '../locations/widgets/location_detail.dart';
+
+class TourDetailScreen extends StatefulWidget {
+  final String tourId;
+
+  const TourDetailScreen({Key? key, required this.tourId}) : super(key: key);
+
+  @override
+  _TourDetailScreenState createState() => _TourDetailScreenState();
+}
+
+class _TourDetailScreenState extends State<TourDetailScreen> {
+  int? selectedPassengers;
+  String? selectedTourTripId;
+
+  @override
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+      create: (_) => TourController()..fetchTourById(widget.tourId),
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Tour Details'),
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+        ),
+        body: Consumer<TourController>(
+          builder: (context, controller, child) {
+            if (controller.isLoading) {
+              return const Center(child: CircularProgressIndicator());
+            }
+
+            final tour = controller.tourDetail;
+            if (tour == null) {
+              return const Center(child: Text('No tour details available.'));
+            }
+
+            return Stack(
+              children: [
+                SingleChildScrollView(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Tour Image
+                      if (tour.locationInTours.isNotEmpty &&
+                          tour.locationInTours[0].photos.isNotEmpty)
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(16),
+                          child: Image.network(
+                            tour.locationInTours[0].photos[0].url,
+                            width: double.infinity,
+                            height: 320,
+                            fit: BoxFit.cover,
+                          ),
+                        )
+                      else
+                        Container(
+                          width: double.infinity,
+                          height: 200,
+                          color: Colors.grey.shade200,
+                          child: const Center(
+                            child: Text('No Image Available'),
+                          ),
+                        ),
+                      const SizedBox(height: 16),
+
+                      // Title and Description
+                      Text(
+                        tour.title ?? 'No title available',
+                        style: const TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        tour.description ?? 'No description available',
+                        style: const TextStyle(
+                            fontSize: 16, color: Colors.black87),
+                      ),
+                      const SizedBox(height: 16),
+
+                      // Dates
+                      Text(
+                        'Duration: ${tour.startDate != null ? DateFormat('dd/MM/yyyy, hh:mm a').format(tour.startDate!) : 'N/A'} - ${tour.endDate != null ? DateFormat('dd/MM/yy, hh:mm a').format(tour.endDate!) : 'N/A'}',
+                        style: const TextStyle(
+                            fontSize: 16, color: Colors.black54),
+                      ),
+                      const SizedBox(height: 16),
+
+                      // Price
+                      Text(
+                        'Price: ${NumberFormat.currency(locale: 'vi', symbol: '₫').format(tour.totalPrice)}',
+                        style: const TextStyle(
+                          fontSize: 18,
+                          color: Colors.blue,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+
+                      // Locations in Tour
+                      if (tour.locationInTours.isNotEmpty) ...[
+                        const Text(
+                          'Locations:',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        for (var location in tour.locationInTours)
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      LocationDetailScreen(location: location),
+                                ),
+                              );
+                            },
+                            child: ListTile(
+                              leading: location.photos.isNotEmpty
+                                  ? ClipRRect(
+                                borderRadius: BorderRadius.circular(8),
+                                child: Image.network(
+                                  location.photos[0].url,
+                                  width: 50,
+                                  height: 50,
+                                  fit: BoxFit.cover,
+                                ),
+                              )
+                                  : const Icon(Icons.location_on,
+                                  color: Colors.blue),
+                              title: Text(location.name),
+                              subtitle: Text(location.address),
+                            ),
+                          ),
+                      ],
+                      const SizedBox(height: 24),
+
+                      // Tour Timestamps (Schedule)
+                      if (tour.tourTimestamps.isNotEmpty) ...[
+                        const Text(
+                          'Schedule:',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        for (var timestamp in tour.tourTimestamps)
+                          ListTile(
+                            title: Text(timestamp.title),
+                            subtitle: Text(
+                              '${timestamp.description}\nTime: ${timestamp.preferredTimeSlot?.startTime ?? ''} - ${timestamp.preferredTimeSlot?.endTime ?? ''}',
+                            ),
+                          ),
+                      ] else ...[
+                        const Text(
+                          'No schedule available.',
+                          style: TextStyle(fontSize: 16, color: Colors.grey),
+                        ),
+                      ],
+                      const SizedBox(height: 24),
+
+                      // Tour Trips
+                      if (tour.tourTrips.isNotEmpty) ...[
+                        const Text(
+                          'Trips:',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        for (var trip in tour.tourTrips)
+                          ListTile(
+                            title: Text(
+                                'Trip Date: ${DateFormat('dd/MM/yyyy hh:mm a').format(trip.tripDate.toLocal())}'),
+                            subtitle: Text(
+                              'Status: ${trip.tripStatus}, '
+                                  'Price: ${NumberFormat.currency(locale: 'vi', symbol: '₫').format(trip.price)}, '
+                                  'Booked Seats: ${trip.bookedSeats}, '
+                                  'Total Seats: ${trip.totalSeats}',
+                            ),
+                            onTap: () {
+                              _showTourTripDetailDialog(context, trip);
+                            },
+                          ),
+                      ],
+                      const SizedBox(height: 80),
+                    ],
+                  ),
+                ),
+
+                // Book Now Button
+                Positioned(
+                  bottom: 16,
+                  left: 16,
+                  right: 16,
+                  child: ElevatedButton.icon(
+                    onPressed:
+                    selectedTourTripId != null && selectedPassengers != null
+                        ? () {
+                      controller.initiatePayment(
+                        context,
+                        selectedTourTripId!,
+                        selectedPassengers!,
+                      );
+                    }
+                        : null,
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      backgroundColor: Colors.black,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    icon: const Icon(Icons.send, color: Colors.white),
+                    label: const Text(
+                      'Book Now',
+                      style: TextStyle(fontSize: 18, color: Colors.white),
+                    ),
+                  ),
+                ),
+              ],
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  // Method to display tour trip detail dialog with passenger input
+  Future<void> _showTourTripDetailDialog(
+      BuildContext context, dynamic trip) async {
+    final maxPassengers = trip.totalSeats - trip.bookedSeats;
+    final passengerController = TextEditingController();
+
+    // Clear previous selection
+    setState(() {
+      selectedTourTripId = null;
+      selectedPassengers = null;
+    });
+
+    await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Trip Details'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+                'Date: ${DateFormat('dd/MM/yyyy, hh:mm a').format(trip.tripDate.toLocal())}'),
+            Text(
+                'Price: ${NumberFormat.currency(locale: 'vi', symbol: '₫').format(trip.price)}'),
+            Text(
+                'Total Seats: ${trip.totalSeats}, Booked: ${trip.bookedSeats}'),
+            const SizedBox(height: 16),
+            TextField(
+              controller: passengerController,
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                hintText: 'Enter passengers (Max: $maxPassengers)',
+                labelText: 'Number of Passengers',
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              final enteredPassengers =
+                  int.tryParse(passengerController.text) ?? 0;
+              if (enteredPassengers > 0 && enteredPassengers <= maxPassengers) {
+                setState(() {
+                  selectedTourTripId = trip.tourTripId;
+                  selectedPassengers = enteredPassengers;
+                });
+                Navigator.pop(context);
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                      content:
+                      Text('Invalid passenger count. Max: $maxPassengers')),
+                );
+              }
+            },
+            child: const Text('Confirm'),
+          ),
+        ],
+      ),
+    );
+  }
+}

@@ -9,11 +9,11 @@ class TImages {
 
   //--OnBoarding Images
   static const String onBoardingImage1 =
-      "assets/images/on_boarding_images/food-order.gif";
+      "assets/images/on_boarding_images/backpack.png";
   static const String onBoardingImage2 =
-      "assets/images/on_boarding_images/food-shipping.gif";
+      "assets/images/on_boarding_images/girl-finding-way-during-trekking.png";
   static const String onBoardingImage3 =
-      "assets/images/on_boarding_images/food-delivery-successfully.gif";
+      "assets/images/on_boarding_images/girl-with-backpack-going-for-trekking.png";
 
   //--Email Verification
   static const String emailSendImage =
@@ -69,5 +69,14 @@ class TImages {
   static const String paypal = "assets/images/payments/paypal.png";
   static const String visa = "assets/images/payments/visa.png";
   static const String cod = "assets/images/payments/cash-on-delivery.png";
+
+//--HomePage Images
+  static const String destination1 = 'assets/images/home/home1.jpg';
+  static const String destination2 = 'assets/images/new_york.jpg';
+  static const String destination3 = 'assets/images/tokyo.jpg';
+  static const String destination4 = 'assets/images/london.jpg';
+  static const String destination5 = 'assets/images/sydney.jpg';
+  static const String destination6 = 'assets/images/dubai.jpg';
+  static const String destination7 = 'assets/images/singapore.jpg';
 
 }

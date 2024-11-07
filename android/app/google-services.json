@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "483794026316",
+    "project_id": "explore-now-travel",
+    "storage_bucket": "explore-now-travel.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:483794026316:android:2704de263f2b26dc82d9e9",
+        "android_client_info": {
+          "package_name": "com.group8_1.explore_now"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDiRQE-oaRqpkGltNl7upAtb1gfGyFNBBM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

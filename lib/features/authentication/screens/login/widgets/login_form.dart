@@ -1,5 +1,3 @@
-import 'package:explore_now/features/daily_check_in/screens/home/home.dart';
-import 'package:explore_now/navigation_dart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
@@ -26,11 +24,12 @@ class TLoginForm extends StatelessWidget {
           children: [
             ///email
             TextFormField(
-              controller: controller.email,
-              validator: (value) => TValidator.validateEmail(value),
+              controller: controller.userName,
+              validator: (value) =>
+                  TValidator.validateEmptyText('username', value),
               decoration: const InputDecoration(
                   prefixIcon: Icon(Iconsax.user_square),
-                  labelText: TTexts.email),
+                  labelText: TTexts.username),
             ),
 
             const SizedBox(height: TSizes.spaceBtwInputFields),
@@ -86,8 +85,7 @@ class TLoginForm extends StatelessWidget {
                 width: double.infinity,
                 height: 50,
                 child: ElevatedButton(
-                    // onPressed: () => controller.emailAndPasswordSignIn(),
-                    onPressed:()=> Get.to(() =>  const NavigationMenu()),
+                    onPressed: () => controller.userNameAndPasswordSignIn(),
                     child: const Text(TTexts.signIn))),
             const SizedBox(height: TSizes.spaceBtwItems),
 

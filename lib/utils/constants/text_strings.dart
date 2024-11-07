@@ -1,11 +1,11 @@
 class TTexts {
 
-static const String onBoardingTitle1 = "Lựa chọn hàng đầu về món nướng";
-static const String onBoardingTitle2 = "Giao hàng thần tốc";
-static const String onBoardingTitle3 = "Thanh toán dễ dàng";
-static const String onBoardingSubTitle1 = "Băn khoăn không biết ăn gì cùng bạn bè? Hãy để chúng tôi là lựa chọn số 1 của bạn về đồ nướng Hàn Quốc";
-static const String onBoardingSubTitle2 = "Đặt combo giao hàng tận nhà nhanh chóng lấp đầy chiếc bụng đói của bạn với những món ngon yêu thích và dịch vụ giao hàng “thần tốc”.";
-static const String onBoardingSubTitle3 = "Giao và nhận đồ ăn thật dễ dàng. Có thể thanh toán bằng rất nhiều hình thức.";
+static const String onBoardingTitle1 = "Đặt tour trực tuyến";
+static const String onBoardingTitle2 = "Thông tin chi tiết về các điểm đến";
+static const String onBoardingTitle3 = "Chia sẻ bài viết du lịch";
+static const String onBoardingSubTitle1 = "Người dùng có thể duyệt và đặt các tour du lịch trong nước hoặc quốc tế, với các gói tour đa dạng, dễ dàng chọn lựa qua giao diện thân thiện";
+static const String onBoardingSubTitle2 = "Cung cấp thông tin chi tiết về các điểm tham quan, lịch trình, đánh giá từ khách hàng trước, giúp người dùng đưa ra quyết định tour phù hợp";
+static const String onBoardingSubTitle3 = "Người dùng có thể tạo và chia sẻ bài viết về trải nghiệm du lịch, giúp cộng đồng khám phá các địa điểm mới";
 
 static const String homeAppbarTitle1 = "Feel Good, Look Great";
 static const String homeAppbarTitle2 = "Comfort and Cheer in Every Tee";
@@ -17,12 +17,16 @@ static const String homeAppbarTitle7 = "Designs That Speak Your Language";
 static const String homeAppbarTitle8 = "Happy Tee, Happy Me";
 static const String homeAppbarTitle9 = "Create. Wear. Inspire.";
 static const String homeAppbarTitle10 = "Express Yourself, Stitch by Stitch";
+static const String searchHint = 'Search destinations...';
+static const String trendingDestinations = 'Trending Destinations';
+static const String popularDestinations = 'Popular Destinations';
 
 //Authentication Form Text
   static const String firstName = "Họ";
   static const String lastName = "Tên";
   static const String email = "E-Mail";
   static const String password = "Mật Khẩu";
+  static const String confirmPassword = "Nhập lại mật khẩu";
   static const String newPassword = "New Password";
   static const String username = "Tên người dùng";
   static const String phoneNo = "Số điện thoại";
@@ -59,7 +63,7 @@ static const String homeAppbarTitle10 = "Express Yourself, Stitch by Stitch";
   static const String yourAccountCreatedTitle = "Tài khoản tạo thành công!";
   static const String yourAccountCreatedSubTitle = "Chào mừng đến với thế giới ẩm thực của bạn: Tài khoản của bạn đã được tạo, hãy bắt đầu tận hưởng niềm vui đặt đồ ăn trực tuyến ngay thôi!";
 
-  static const String homeAppBarTitle = "Chào mừng đến với KGrill";
+  static const String homeAppBarTitle = "Tận hưởng du lịch với Explore Now";
   static const String homeAppBarSubTitle = "おはよう ございます";
 
 }

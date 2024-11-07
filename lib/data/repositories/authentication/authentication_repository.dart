@@ -5,7 +5,6 @@ import 'package:get_storage/get_storage.dart';
 import '../../../features/authentication/screens/login/login.dart';
 import '../../../features/authentication/screens/onboarding/onboarding.dart';
 
-
 class AuthenticationRepository extends GetxController {
   static AuthenticationRepository get instance => Get.find();
 
@@ -26,6 +25,6 @@ class AuthenticationRepository extends GetxController {
         ? Get.offAll(() => const LoginScreen())
         : Get.offAll(const OnBoardingScreen());
   }
-/// Register
 
+  /// Register
 }

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 class TValidator {
   static String? validateEmptyText(String? fieldName, String? value) {
     if (value == null || value.isEmpty) {
@@ -51,15 +53,36 @@ class TValidator {
     return null;
   }
 
-// static String? validateUsername(String? value) {
-//   if (value == null || value.isEmpty) {
-//     return 'Username is required';
-//   }
-//   final usernameRegExp =
-//       RegExp(r'(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])');
-//   if (!usernameRegExp.hasMatch(value)) {
-//     return 'Invalid username, ensure it contains a number and does not include special characters';
-//   }
-//   return null;
-// }
+  static String? validateUsername(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Username is required';
+    }
+    final usernameRegExp =
+        RegExp(r'(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])');
+    if (!usernameRegExp.hasMatch(value)) {
+      return 'Tên người dùng không hợp lệ, hãy đảm bảo tên người dùng chứa số và không bao gồm các ký tự đặc biệt';
+    }
+    return null;
+  }
+
+  static String? validatePostContent(String? content, List<String>? images) {
+    if (content == null || content.isEmpty) {
+      return 'Nội dung không được để trống';
+    }
+    if (images == null || images.isEmpty) {
+      return 'Cần ít nhất một hình ảnh';
+    }
+    return null;
+  }
+
+  static String? validateImageSize(List<File> images) {
+    for (var image in images) {
+      int sizeInBytes = image.lengthSync();
+      double sizeInMB = sizeInBytes / (1024 * 1024);
+      if (sizeInMB > 3) {
+        return 'Ảnh không được vượt quá 10MB';
+      }
+    }
+    return null;
+  }
 }

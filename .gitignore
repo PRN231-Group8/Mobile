@@ -6,7 +6,7 @@ build/
 pubspec.lock
 
 # dotenv environment variables file
-.env*
+.env
 
 # Avoid committing generated Javascript files:
 *.dart.js

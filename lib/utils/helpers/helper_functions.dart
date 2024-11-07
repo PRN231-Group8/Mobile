@@ -107,4 +107,31 @@ class THelperFunctions {
     }
     return wrappedList;
   }
+
+  static String formatPostDate(DateTime date) {
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final yesterday = today.subtract(const Duration(days: 1));
+
+    if (date.isAfter(today)) {
+      return "Hôm nay ${DateFormat('HH:mm').format(date)}";
+    } else if (date.isAfter(yesterday)) {
+      return "Hôm qua ${DateFormat('HH:mm').format(date)}";
+    } else {
+      return DateFormat('dd/MM/yy HH:mm').format(date);
+    }
+  }
+
+  static String formatCommentTimestamp(DateTime dateTime) {
+    final duration = DateTime.now().difference(dateTime);
+    if (duration.inDays >= 1) {
+      return '${duration.inDays} ngày';
+    } else if (duration.inHours >= 1) {
+      return '${duration.inHours} tiếng';
+    } else if (duration.inMinutes >= 1) {
+      return '${duration.inMinutes} phút';
+    } else {
+      return 'Vừa xong';
+    }
+  }
 }
