@@ -108,8 +108,7 @@ class UserProfileService {
     }
   }
 
-  Future<Map<String, Object>> updateUserProfile(
-      Map<String, dynamic> updatedFields) async {
+  Future<Map<String, Object>> updateUserProfile(Map<String, dynamic> updatedFields) async {
     String? accessToken = await getAccessToken();
     if (accessToken == null) {
       return {"success": false, "message": "No access token found"};
