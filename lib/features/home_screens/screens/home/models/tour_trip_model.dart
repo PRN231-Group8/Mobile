@@ -20,7 +20,7 @@ class TourTrip {
       tourTripId: json['tourTripId'],
       tripDate: DateTime.parse(json['tripDate']),
       tripStatus: json['tripStatus'],
-      price: json['price'],
+      price: (json['price'] as num).toDouble(),
       bookedSeats: json['bookedSeats'],
       totalSeats: json['totalSeats'],
     );

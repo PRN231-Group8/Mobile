@@ -20,7 +20,7 @@ class TourDestinations extends StatelessWidget {
         if (controller.isLoading) {
           return Center(child: CircularProgressIndicator());
         } else if (controller.tours.isEmpty) {
-          return Center(child: Text('No tours available.'));
+          return Center(child: Text('Không có tour nào có sẵn.'));
         } else {
           return SizedBox(
             height: 250, // Increased height to match the layout
@@ -146,7 +146,7 @@ class TourCard extends StatelessWidget {
           ),
           const SizedBox(height: 4),
           Text(
-            'Price: ${NumberFormat.currency(locale: 'vi', symbol: '₫', decimalDigits: 0).format(price)}',
+            'Giá: ${NumberFormat.currency(locale: 'vi', symbol: '₫', decimalDigits: 0).format(price)}',
             style: const TextStyle(
               color: Colors.blue,
               fontSize: 12,
