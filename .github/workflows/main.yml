@@ -22,6 +22,22 @@ jobs:
           channel: 'stable'
           architecture: x64
 
+      # Step to create the .env file with secrets
+      - name: Set up .env file
+        run: |
+          echo "AUTH_PROVIDER_CERT_URL=${{ secrets.AUTH_PROVIDER_CERT_URL }}" >> .env
+          echo "AUTH_URI=${{ secrets.AUTH_URI }}" >> .env
+          echo "CLIENT_CERT_URL=${{ secrets.CLIENT_CERT_URL }}" >> .env
+          echo "CLIENT_EMAIL=${{ secrets.CLIENT_EMAIL }}" >> .env
+          echo "CLIENT_ID=${{ secrets.CLIENT_ID }}" >> .env
+          echo "ENCRYPTION_KEY=${{ secrets.ENCRYPTION_KEY }}" >> .env
+          echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" >> .env
+          echo "PRIVATE_KEY=${{ secrets.PRIVATE_KEY }}" >> .env
+          echo "PRIVATE_KEY_ID=${{ secrets.PRIVATE_KEY_ID }}" >> .env
+          echo "PROJECT_ID=${{ secrets.PROJECT_ID }}" >> .env
+          echo "SERVICE_ACCOUNT_TYPE=${{ secrets.SERVICE_ACCOUNT_TYPE }}" >> .env
+          echo "UNIVERSE_DOMAIN=${{ secrets.UNIVERSE_DOMAIN }}" >> .env
+
       - run: flutter build apk --release --split-per-abi
       
       - name: Push to Releases
@@ -30,11 +46,3 @@ jobs:
           artifacts: "build/app/outputs/apk/release/*,build/ios/iphoneos/app.ipa"
           tag: v1.0.${{ github.run_number }}
           token: ${{ secrets.TOKEN }}
-
-
-
-
-
-
-# push to master, main, develop
-# pull request on main master
