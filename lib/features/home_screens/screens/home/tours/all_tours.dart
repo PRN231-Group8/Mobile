@@ -123,7 +123,7 @@ class AllToursScreen extends StatelessWidget {
                                 ),
                                 const SizedBox(height: 8),
                                 Text(
-                                  '${NumberFormat.currency(locale: 'vi', symbol: '₫').format(tour.totalPrice)} / Person',
+                                  '${NumberFormat.currency(locale: 'vi', symbol: '₫').format(tour.totalPrice)}',
                                   style: const TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,
