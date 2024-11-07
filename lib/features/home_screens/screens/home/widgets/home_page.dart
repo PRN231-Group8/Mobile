@@ -141,7 +141,7 @@ class _HomePageState extends State<HomePage> {
                         builder: (context, userController, child) {
                           if (userController.isLoading) {
                             return const Text(
-                              'Hello,',
+                              'Xin chào,',
                               style: TextStyle(
                                 color: Colors.black38,
                                 fontSize: 18,
@@ -150,7 +150,7 @@ class _HomePageState extends State<HomePage> {
                             );
                           } else if (userController.userName != null) {
                             return Text(
-                              'Hello, ${userController.userName},',
+                              'Xin chào, ${userController.userName},',
                               style: const TextStyle(
                                 color: Colors.black38,
                                 fontSize: 18,
@@ -159,7 +159,7 @@ class _HomePageState extends State<HomePage> {
                             );
                           } else {
                             return const Text(
-                              'Hello, Guest,',
+                              'Xin chào, User',
                               style: TextStyle(
                                 color: Colors.black38,
                                 fontSize: 18,
@@ -191,7 +191,7 @@ class _HomePageState extends State<HomePage> {
               const SearchBox(),
               const SizedBox(height: 30),
               SectionTitle(
-                title: 'Trending Locations',
+                title: 'Địa điểm ưu thích',
                 onViewAllPressed: _navigateToViewAll,
               ),
               const SizedBox(height: 10),
@@ -205,13 +205,13 @@ class _HomePageState extends State<HomePage> {
                       onLocationTap: _navigateToDetails,
                     );
                   } else {
-                    return const Center(child: Text('No locations available.'));
+                    return const Center(child: Text('không có địa điểm.'));
                   }
                 },
               ),
               const SizedBox(height: 30),
               SectionTitle(
-                title: 'Popular Tours',
+                title: 'Các tour du lịch phổ biến',
                 onViewAllPressed: _navigateToAllTours,
               ),
               const SizedBox(height: 10),

@@ -14,7 +14,7 @@ class AllToursScreen extends StatelessWidget {
       create: (_) => TourController()..fetchAllTours(),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('All Tours'),
+          title: const Text('Tour du lịch'),
           backgroundColor: Colors.white,
           elevation: 0,
           iconTheme: const IconThemeData(color: Colors.black),
@@ -27,7 +27,7 @@ class AllToursScreen extends StatelessWidget {
             }
 
             if (controller.tours.isEmpty) {
-              return const Center(child: Text('No tours available.'));
+              return const Center(child: Text('Không có tour nào có sẵn.'));
             }
 
             return ListView.builder(

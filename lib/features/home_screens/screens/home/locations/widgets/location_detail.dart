@@ -127,7 +127,7 @@ class LocationDetailScreen extends StatelessWidget {
                       children: [
                         Icon(Icons.schedule, color: Colors.black54),
                         SizedBox(height: 4),
-                        Text('8 hours',
+                        Text('8 giờ',
                             style: TextStyle(color: Colors.black54)),
                       ],
                     ),
@@ -143,7 +143,7 @@ class LocationDetailScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 24),
                 Text(
-                  'Overview',
+                  'Tổng quan',
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -161,7 +161,7 @@ class LocationDetailScreen extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Text(
-              'More Photos',
+              'Hình ảnh',
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
