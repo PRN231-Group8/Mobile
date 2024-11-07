@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../home/models/location_model.dart';
+import '../../models/location_model.dart';
 
 class LocationDetailScreen extends StatelessWidget {
   final Location location;
@@ -100,7 +100,7 @@ class LocationDetailScreen extends StatelessWidget {
                                 ),
                                 SizedBox(height: 4),
                                 Text(
-                                  location.address.fullAddress,
+                                  location.address,
                                   style: TextStyle(color: Colors.white70),
                                 ),
                               ],

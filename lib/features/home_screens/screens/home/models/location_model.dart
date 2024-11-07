@@ -1,12 +1,10 @@
 import 'package:explore_now/features/home_screens/screens/home/models/photo_model.dart';
 
-import 'address_model.dart';
-
 class Location {
   final String id;
   final String name;
   final String description;
-  final Address address;
+  final String address;
   final String status;
   final double? temperature;
   final List<Photo> photos;
@@ -26,7 +24,7 @@ class Location {
       id: json['id'] ?? '',
       name: json['name'] ?? '',
       description: json['description'] ?? '',
-      address: Address.fromJson(json['address']),
+      address: json['address'] ?? '',
       status: json['status'] ?? '',
       temperature: (json['temperature'] as num?)?.toDouble(),
       photos: (json['photos'] as List?)

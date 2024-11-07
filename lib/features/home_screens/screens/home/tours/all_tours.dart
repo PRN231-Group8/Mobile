@@ -70,7 +70,7 @@ class AllToursScreen extends StatelessWidget {
                                     fit: BoxFit.cover,
                                   )
                                 : Image.asset(
-                                    'assets/images/home/home2.jpg',
+                                    'assets/images/home/home1.jpg',
                                     width: 80,
                                     height: 80,
                                     fit: BoxFit.cover,
@@ -123,7 +123,7 @@ class AllToursScreen extends StatelessWidget {
                                 ),
                                 const SizedBox(height: 8),
                                 Text(
-                                  '${NumberFormat.currency(locale: 'vi', symbol: '₫').format(tour.totalPrice)} / Person',
+                                  '${NumberFormat.currency(locale: 'vi', symbol: '₫').format(tour.totalPrice)}',
                                   style: const TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,

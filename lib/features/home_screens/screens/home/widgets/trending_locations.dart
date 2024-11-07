@@ -26,7 +26,7 @@ class TrendingDestinations extends StatelessWidget {
             child: TrendingCard(
               image: location.photos.isNotEmpty
                   ? location.photos.first.url
-                  : 'assets/images/home/home2.jpg',
+                  : 'assets/images/home/home1.jpg',
               title: location.name,
             ),
           );

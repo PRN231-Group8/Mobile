@@ -29,7 +29,7 @@ class UserProfileService {
 
     try {
       var response = await client.get(
-        Uri.parse('${TConnectionStrings.deployment}users/$userEmail/email'),
+        Uri.parse('${TConnectionStrings.deployment}users/$userEmail'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $accessToken',

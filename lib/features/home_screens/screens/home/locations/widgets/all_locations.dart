@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../home/controllers/location_controller.dart';
+
+import '../../controllers/location_controller.dart';
 import 'location_card.dart';
 import 'location_detail.dart';
 

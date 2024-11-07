@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-import '../../locations/widgets/location_detail.dart';
 import '../controllers/tour_controller.dart';
+import '../locations/widgets/location_detail.dart';
 
 class TourDetailScreen extends StatefulWidget {
   final String tourId;
@@ -128,22 +128,21 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                             child: ListTile(
                               leading: location.photos.isNotEmpty
                                   ? ClipRRect(
-                                      borderRadius: BorderRadius.circular(8),
-                                      child: Image.network(
-                                        location.photos[0].url,
-                                        width: 50,
-                                        height: 50,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    )
+                                borderRadius: BorderRadius.circular(8),
+                                child: Image.network(
+                                  location.photos[0].url,
+                                  width: 50,
+                                  height: 50,
+                                  fit: BoxFit.cover,
+                                ),
+                              )
                                   : const Icon(Icons.location_on,
-                                      color: Colors.blue),
+                                  color: Colors.blue),
                               title: Text(location.name),
-                              subtitle: Text(location.address.fullAddress),
+                              subtitle: Text(location.address),
                             ),
                           ),
                       ],
-
                       const SizedBox(height: 24),
 
                       // Tour Timestamps (Schedule)
@@ -160,7 +159,7 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                           ListTile(
                             title: Text(timestamp.title),
                             subtitle: Text(
-                              '${timestamp.description} \nTime: ${timestamp.preferredTimeSlot?.startTime} - ${timestamp.preferredTimeSlot?.endTime}',
+                              '${timestamp.description}\nTime: ${timestamp.preferredTimeSlot?.startTime ?? ''} - ${timestamp.preferredTimeSlot?.endTime ?? ''}',
                             ),
                           ),
                       ] else ...[
@@ -187,17 +186,16 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                                 'Trip Date: ${DateFormat('dd/MM/yyyy hh:mm a').format(trip.tripDate.toLocal())}'),
                             subtitle: Text(
                               'Status: ${trip.tripStatus}, '
-                              'Price: ${NumberFormat.currency(locale: 'vi', symbol: '₫').format(trip.price)}, '
-                              'Booked Seats: ${trip.bookedSeats}, '
-                              'Total Seats: ${trip.totalSeats}',
+                                  'Price: ${NumberFormat.currency(locale: 'vi', symbol: '₫').format(trip.price)}, '
+                                  'Booked Seats: ${trip.bookedSeats}, '
+                                  'Total Seats: ${trip.totalSeats}',
                             ),
                             onTap: () {
                               _showTourTripDetailDialog(context, trip);
                             },
-                          )
+                          ),
                       ],
                       const SizedBox(height: 80),
-                      // Extra padding for button space
                     ],
                   ),
                 ),
@@ -209,16 +207,15 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                   right: 16,
                   child: ElevatedButton.icon(
                     onPressed:
-                        selectedTourTripId != null && selectedPassengers != null
-                            ? () {
-                                controller.initiatePayment(
-                                  context,
-                                  selectedTourTripId!,
-                                  selectedPassengers!,
-                                );
-                              }
-                            : null,
-                    // Disable if no trip is selected or passengers not set
+                    selectedTourTripId != null && selectedPassengers != null
+                        ? () {
+                      controller.initiatePayment(
+                        context,
+                        selectedTourTripId!,
+                        selectedPassengers!,
+                      );
+                    }
+                        : null,
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       backgroundColor: Colors.black,
@@ -246,6 +243,12 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
       BuildContext context, dynamic trip) async {
     final maxPassengers = trip.totalSeats - trip.bookedSeats;
     final passengerController = TextEditingController();
+
+    // Clear previous selection
+    setState(() {
+      selectedTourTripId = null;
+      selectedPassengers = null;
+    });
 
     await showDialog(
       context: context,
@@ -290,7 +293,7 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                       content:
-                          Text('Invalid passenger count. Max: $maxPassengers')),
+                      Text('Invalid passenger count. Max: $maxPassengers')),
                 );
               }
             },

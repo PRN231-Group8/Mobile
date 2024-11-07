@@ -1,4 +1,4 @@
-import 'package:explore_now/common/widgets/appbar/appbar.dart';
+import 'package:explore_now/common/widgets/appbar/tappbar.dart';
 import 'package:explore_now/features/home_screens/screens/home/widgets/home_page.dart';
 import 'package:flutter/material.dart';
 
@@ -8,7 +8,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      appBar: const TAppBar(
+      appBar: const HAppBar(
         title: Text(
           'Explore Now',
           style: TextStyle(
