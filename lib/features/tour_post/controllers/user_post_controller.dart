@@ -129,7 +129,6 @@ class PostController extends GetxController {
       }
       return false;
     } finally {
-      // Reset loading state when done
       isLoading.value = false;
     }
   }

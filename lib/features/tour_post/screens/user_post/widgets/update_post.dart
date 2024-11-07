@@ -10,7 +10,7 @@ import '../../../controllers/user_post_controller.dart';
 class UpdatePostScreen extends StatefulWidget {
   final String postId;
   final String initialContent;
-  final List<String> initialImages;
+  final List<Map<String, String>> initialImages; // Update type
 
   const UpdatePostScreen({
     super.key,
@@ -27,7 +27,7 @@ class _UpdatePostScreenState extends State<UpdatePostScreen> {
   final TextEditingController _contentController = TextEditingController();
   final ImagePicker _picker = ImagePicker();
   final List<File> _newImages = [];
-  List<String> _currentImages = [];
+  List<Map<String, String>> _currentImages = []; // Update type
   final List<String> _imagesToRemove = [];
   final postController = Get.put(PostController());
 
@@ -45,7 +45,7 @@ class _UpdatePostScreenState extends State<UpdatePostScreen> {
     String? sizeValidationMessage = TValidator.validateImageSize(pickedFiles);
     if (sizeValidationMessage != null) {
       TLoaders.warningSnackBar(
-          title: 'Lỗi xác thực', message: sizeValidationMessage);
+          title: 'Validation Error', message: sizeValidationMessage);
       return;
     }
 
@@ -54,17 +54,17 @@ class _UpdatePostScreenState extends State<UpdatePostScreen> {
     });
   }
 
-  void _removeImage(String url) {
+  void _removeImage(String id) {
     setState(() {
       if (_currentImages.length + _newImages.length - _imagesToRemove.length > 1) {
-        if (_currentImages.contains(url)) {
-          _imagesToRemove.add(url);
-          _currentImages.remove(url);
+        final imageToRemove = _currentImages.firstWhere((image) => image['id'] == id, orElse: () => {});
+        if (imageToRemove.isNotEmpty) {
+          _imagesToRemove.add(id);
+          _currentImages.remove(imageToRemove);
         }
       } else {
         TLoaders.warningSnackBar(
-            title: 'Validation Error',
-            message: 'At least one image is required for the post.');
+            title: 'Validation Error', message: 'At least one image is required for the post.');
       }
     });
   }
@@ -96,11 +96,9 @@ class _UpdatePostScreenState extends State<UpdatePostScreen> {
 
     if (success) {
       Get.back();
-      TLoaders.successSnackBar(
-          title: 'Success', message: 'Your post has been updated successfully.');
+      TLoaders.successSnackBar(title: 'Success', message: 'Your post has been updated successfully.');
     } else {
-      TLoaders.errorSnackBar(
-          title: 'Error', message: 'Failed to update the post, please try again later.');
+      TLoaders.errorSnackBar(title: 'Error', message: 'Failed to update the post, please try again later.');
     }
   }
 
@@ -129,13 +127,13 @@ class _UpdatePostScreenState extends State<UpdatePostScreen> {
             ),
             const SizedBox(height: 10),
             Wrap(
-              children: _currentImages.map((url) {
+              children: _currentImages.map((image) {
                 return Stack(
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Image.network(
-                        url,
+                        image['url']!,
                         width: 80,
                         height: 80,
                         fit: BoxFit.cover,
@@ -145,7 +143,7 @@ class _UpdatePostScreenState extends State<UpdatePostScreen> {
                       right: 0,
                       child: IconButton(
                         icon: const Icon(Icons.remove_circle, color: Colors.red),
-                        onPressed: () => _removeImage(url),
+                        onPressed: () => _removeImage(image['id']!),
                       ),
                     ),
                   ],

@@ -111,7 +111,7 @@ class TPostCardVertical extends StatelessWidget {
                                 postId: post.postsId,
                                 initialContent: post.content,
                                 initialImages: post.photos
-                                    .map((photo) => photo.url)
+                                    .map((photo) => {'id': photo.id, 'url': photo.url})
                                     .toList(),
                               ));
                             }

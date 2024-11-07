@@ -5,6 +5,7 @@ import 'package:explore_now/features/home_screens/screens/home/widgets/trending_
 import 'package:explore_now/features/personalization/screens/settings/setting.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../../../personalization/screens/booking/booking_history.dart';
 import '../controllers/location_controller.dart';
 import '../controllers/tour_controller.dart';
 import '../controllers/user_controller.dart';
@@ -91,11 +92,8 @@ class _HomePageState extends State<HomePage> {
   void _navigateToBookingHistory() {
     Navigator.push(
       context,
-      // MaterialPageRoute(
-      //   builder: (context) => const BookingHistoryScreen(),
-      // ),
       MaterialPageRoute(
-        builder: (context) => const SettingsScreen(),
+        builder: (context) => const BookingHistoryScreen(),
       ),
     );
   }
