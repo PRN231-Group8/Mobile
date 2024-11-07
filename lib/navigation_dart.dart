@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:animations/animations.dart';
 
+import 'features/home_screens/screens/home/home.dart';
 import 'features/personalization/screens/settings/setting.dart';
 import 'features/tour_post/screens/user_post/user_post.dart';
 

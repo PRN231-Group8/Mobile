@@ -17,6 +17,9 @@ static const String homeAppbarTitle7 = "Designs That Speak Your Language";
 static const String homeAppbarTitle8 = "Happy Tee, Happy Me";
 static const String homeAppbarTitle9 = "Create. Wear. Inspire.";
 static const String homeAppbarTitle10 = "Express Yourself, Stitch by Stitch";
+static const String searchHint = 'Search destinations...';
+static const String trendingDestinations = 'Trending Destinations';
+static const String popularDestinations = 'Popular Destinations';
 
 //Authentication Form Text
   static const String firstName = "Họ";

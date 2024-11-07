@@ -70,4 +70,13 @@ class TImages {
   static const String visa = "assets/images/payments/visa.png";
   static const String cod = "assets/images/payments/cash-on-delivery.png";
 
+//--HomePage Images
+  static const String destination1 = 'assets/images/home/home1.jpg';
+  static const String destination2 = 'assets/images/new_york.jpg';
+  static const String destination3 = 'assets/images/tokyo.jpg';
+  static const String destination4 = 'assets/images/london.jpg';
+  static const String destination5 = 'assets/images/sydney.jpg';
+  static const String destination6 = 'assets/images/dubai.jpg';
+  static const String destination7 = 'assets/images/singapore.jpg';
+
 }

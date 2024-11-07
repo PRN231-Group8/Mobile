@@ -13,7 +13,7 @@ Future<void> main() async {
   await dotenv.load(fileName: ".env");
   ///Widgets Binding
   final WidgetsBinding widgetsBinding =
-  WidgetsFlutterBinding.ensureInitialized();
+      WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform)
       .whenComplete(() {

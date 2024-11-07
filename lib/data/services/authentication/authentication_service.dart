@@ -1,12 +1,16 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/foundation.dart';
-import 'package:http/http.dart' as http;
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:http/http.dart' as http;
+import 'package:http/io_client.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
+
 import '../../../features/authentication/controllers/logout/logout_controller.dart';
 import '../../../utils/constants/connection_strings.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../../../utils/encrypt/encrypt_device_id.dart';
 import '../firebase/firebase_cloud_messaging_service.dart';
@@ -86,6 +90,7 @@ class AuthenticationService {
   }) async {
     String? fcmToken = await _fcmService.getFcmToken();
     final String encryptedDeviceId = encryptionUtils.encryptDeviceId(fcmToken!);
+
     var userSignInInformation = {
       "userName": userName.trim().toLowerCase(),
       "password": password.trim(),
@@ -93,9 +98,14 @@ class AuthenticationService {
     };
 
     try {
-      var response = await _client
+      HttpClient httpClient = HttpClient();
+      httpClient.badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+
+      final ioClient = IOClient(httpClient);
+      var response = await ioClient
           .post(
-            Uri.parse('${TConnectionStrings.deployment}auth/login'),
+            Uri.parse('${TConnectionStrings.localhost}auth/login'),
             headers: {'Content-Type': 'application/json'},
             body: jsonEncode(userSignInInformation),
           )
