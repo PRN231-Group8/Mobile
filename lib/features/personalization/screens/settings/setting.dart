@@ -199,12 +199,6 @@ class SettingsScreenState extends State<SettingsScreen> {
                     onTap: () {},
                   ),
                   TSettingsMenuTile(
-                    icon: Iconsax.shopping_cart,
-                    title: 'Giỏ Hàng',
-                    subtitle: 'Chỉnh sửa giỏ hàng',
-                    onTap: () {},
-                  ),
-                  TSettingsMenuTile(
                     icon: Iconsax.card,
                     title: 'Thẻ Ngân Hàng',
                     subtitle: 'Thiết lập phương thức thanh toán',

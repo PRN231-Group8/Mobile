@@ -35,8 +35,8 @@ class TourDestinations extends StatelessWidget {
                     image: tour.locationInTours.isNotEmpty
                         ? tour.locationInTours[0].photos.isNotEmpty
                             ? tour.locationInTours[0].photos[0].url
-                            : 'assets/images/home/home2.jpg'
-                        : 'assets/images/home/home2.jpg',
+                            : 'assets/images/home/home1.jpg'
+                        : 'assets/images/home/home1.jpg',
                     title: tour.title ?? 'No title available',
                     location: tour.locationInTours.isNotEmpty
                         ? tour.locationInTours[0].name

@@ -49,7 +49,7 @@ class NavigationMenu extends StatelessWidget {
               items: const [
                 BottomNavigationBarItem(
                   icon: Icon(Iconsax.calendar_1),
-                  label: 'Điểm danh',
+                  label: 'Trang chủ',
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Iconsax.picture_frame),
@@ -113,10 +113,10 @@ class NavigationController extends GetxController {
   final Rx<int> selectedIndex = 0.obs;
 
   final screens = [
-    Container(color: Colors.red),
+    const HomeScreen(),
     const PostScreen(),
-    Container(color: Colors.yellow),
-    Container(color: Colors.green),
+    const HomeScreen(),
+    const HomeScreen(),
     const SettingsScreen(),
   ];
 }

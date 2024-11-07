@@ -40,11 +40,9 @@ class _UpdatePostScreenState extends State<UpdatePostScreen> {
 
   void _pickImages() async {
     final List<XFile> images = await _picker.pickMultiImage();
-
     List<File> pickedFiles = images.map((image) => File(image.path)).toList();
 
     String? sizeValidationMessage = TValidator.validateImageSize(pickedFiles);
-
     if (sizeValidationMessage != null) {
       TLoaders.warningSnackBar(
           title: 'Lỗi xác thực', message: sizeValidationMessage);
@@ -59,7 +57,10 @@ class _UpdatePostScreenState extends State<UpdatePostScreen> {
   void _removeImage(String url) {
     setState(() {
       if (_currentImages.length + _newImages.length - _imagesToRemove.length > 1) {
-        _imagesToRemove.add(url);
+        if (_currentImages.contains(url)) {
+          _imagesToRemove.add(url);
+          _currentImages.remove(url);
+        }
       } else {
         TLoaders.warningSnackBar(
             title: 'Validation Error',
@@ -69,7 +70,8 @@ class _UpdatePostScreenState extends State<UpdatePostScreen> {
   }
 
   void _submitUpdate() async {
-    if (_contentController.text.isEmpty || (_currentImages.isEmpty && _newImages.isEmpty)) {
+    if (_contentController.text.isEmpty ||
+        (_currentImages.isEmpty && _newImages.isEmpty)) {
       TLoaders.warningSnackBar(
           title: 'Validation Error', message: 'Content and at least one image are required.');
       return;

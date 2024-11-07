@@ -1,4 +1,3 @@
-import 'package:explore_now/common/widgets/appbar/appbar.dart';
 import 'package:explore_now/common/widgets/appbar/home_app_bar.dart';
 import 'package:explore_now/features/home_screens/screens/home/widgets/home_page.dart';
 import 'package:flutter/material.dart';

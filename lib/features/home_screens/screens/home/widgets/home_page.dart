@@ -1,21 +1,22 @@
-import 'package:explore_now/features/home_screens/screens/home/tours/all_tours.dart';
 import 'package:explore_now/features/home_screens/screens/home/widgets/popular_destinations.dart';
 import 'package:explore_now/features/home_screens/screens/home/widgets/search_box.dart';
 import 'package:explore_now/features/home_screens/screens/home/widgets/section_title.dart';
 import 'package:explore_now/features/home_screens/screens/home/widgets/trending_locations.dart';
+import 'package:explore_now/features/personalization/screens/settings/setting.dart';
 import 'package:flutter/material.dart';
-import 'package:geocoding/geocoding.dart' as geo;
-import 'package:geolocator/geolocator.dart';
-import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-import '../../locations/widgets/all_locations.dart';
-import '../../locations/widgets/location_detail.dart';
 import '../controllers/location_controller.dart';
 import '../controllers/tour_controller.dart';
 import '../controllers/user_controller.dart';
+import '../locations/widgets/all_locations.dart';
+import '../locations/widgets/location_detail.dart';
 import '../models/location_model.dart';
 import '../models/tour_model.dart';
+import '../tours/all_tours.dart';
 import '../tours/tour_detail.dart';
+import 'package:get/get.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:geocoding/geocoding.dart' as geo;
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -37,9 +38,11 @@ class _HomePageState extends State<HomePage> {
     try {
       LocationPermission permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied || permission == LocationPermission.deniedForever) {
-        setState(() {
-          _locationMessage = 'Location permissions are denied';
-        });
+        if (mounted) {
+          setState(() {
+            _locationMessage = 'Location permissions are denied';
+          });
+        }
         return;
       }
 
@@ -47,20 +50,23 @@ class _HomePageState extends State<HomePage> {
         desiredAccuracy: LocationAccuracy.high,
       );
 
-      // Convert latitude and longitude to an address
       List<geo.Placemark> placemarks = await geo.placemarkFromCoordinates(
         position.latitude,
         position.longitude,
       );
 
       geo.Placemark place = placemarks[0];
-      setState(() {
-        _locationMessage = "${place.locality}, ${place.administrativeArea}, ${place.country}";
-      });
+      if (mounted) {
+        setState(() {
+          _locationMessage = "${place.locality}, ${place.administrativeArea}, ${place.country}";
+        });
+      }
     } catch (e) {
-      setState(() {
-        _locationMessage = 'Could not fetch location';
-      });
+      if (mounted) {
+        setState(() {
+          _locationMessage = 'Could not fetch location';
+        });
+      }
     }
   }
 
@@ -82,6 +88,18 @@ class _HomePageState extends State<HomePage> {
     ));
   }
 
+  void _navigateToBookingHistory() {
+    Navigator.push(
+      context,
+      // MaterialPageRoute(
+      //   builder: (context) => const BookingHistoryScreen(),
+      // ),
+      MaterialPageRoute(
+        builder: (context) => const SettingsScreen(),
+      ),
+    );
+  }
+
   void onTourTap(Tour tour) {
     Navigator.push(
       context,
@@ -100,6 +118,16 @@ class _HomePageState extends State<HomePage> {
         ChangeNotifierProvider(create: (_) => UserController()..fetchUser()),
       ],
       child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Explore Now'),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.history, color: Colors.blue),
+              onPressed: _navigateToBookingHistory,  // Navigate to Booking History
+              tooltip: 'Booking History',
+            ),
+          ],
+        ),
         body: SingleChildScrollView(
           padding: const EdgeInsets.all(20),
           child: Column(
@@ -156,24 +184,19 @@ class _HomePageState extends State<HomePage> {
                   ),
                   IconButton(
                     icon: const Icon(Icons.location_on, color: Colors.blue),
-                    onPressed: () => _getCurrentLocation(),
+                    onPressed: _getCurrentLocation,
                   ),
                 ],
               ),
               const SizedBox(height: 5),
               const SizedBox(height: 20),
-
-              // Search Box
               const SearchBox(),
               const SizedBox(height: 30),
-
-              // Trending Destinations Section
               SectionTitle(
                 title: 'Trending Locations',
-                onViewAllPressed: () => _navigateToViewAll(),
+                onViewAllPressed: _navigateToViewAll,
               ),
               const SizedBox(height: 10),
-
               Consumer<LocationController>(
                 builder: (context, controller, child) {
                   if (controller.isLoading) {
@@ -188,15 +211,14 @@ class _HomePageState extends State<HomePage> {
                   }
                 },
               ),
-
               const SizedBox(height: 30),
               SectionTitle(
                 title: 'Popular Tours',
-                onViewAllPressed: () => _navigateToAllTours(),
+                onViewAllPressed: _navigateToAllTours,
               ),
               const SizedBox(height: 10),
               TourDestinations(
-                onTourTap: onTourTap, // Pass the updated onTourTap callback
+                onTourTap: onTourTap,
               ),
             ],
           ),
