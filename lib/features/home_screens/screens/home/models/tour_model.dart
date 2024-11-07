@@ -37,7 +37,6 @@ class Tour {
   });
 
   factory Tour.fromJson(Map<String, dynamic> json) {
-    print("Raw Tour Timestamps JSON Data: ${json['tourTimestamps']}");
     return Tour(
       id: json['id'] ?? '',
       code: json['code'] ?? '',
@@ -48,23 +47,27 @@ class Tour {
       title: json['title'],
       description: json['description'],
       transportations: (json['transportations'] as List?)
-          ?.map((e) => Transportation.fromJson(e))
-          .toList() ?? [],
+              ?.map((e) => Transportation.fromJson(e))
+              .toList() ??
+          [],
       tourTimestamps: (json['tourTimestamps'] as List?)
-          ?.map((e) => TourTimestamp.fromJson(e))
-          .toList() ?? [],
+              ?.map((e) => TourTimestamp.fromJson(e))
+              .toList() ??
+          [],
       locationInTours: (json['locationInTours'] as List?)
-          ?.map((e) => Location.fromJson(e))
-          .toList() ?? [],
+              ?.map((e) => Location.fromJson(e))
+              .toList() ??
+          [],
       tourMoods: (json['tourMoods'] as List?)
-          ?.map((e) => TourMood.fromJson(e))
-          .toList() ?? [],
+              ?.map((e) => TourMood.fromJson(e))
+              .toList() ??
+          [],
       tourTrips: (json['tourTrips'] as List?)
-          ?.map((e) => TourTrip.fromJson(e))
-          .toList() ?? [],
+              ?.map((e) => TourTrip.fromJson(e))
+              .toList() ??
+          [],
     );
   }
-
 
   static DateTime? _parseDate(String? dateString) {
     if (dateString == null) return null;
