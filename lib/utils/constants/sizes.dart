@@ -68,4 +68,8 @@ class TSizes {
 
   // Grid view spacing
   static const double gridViewSpacing = 16.0;
+
+  static const double paddingAll = 16.0;
+  static const double borderRadius = 12.0;
+  static const double title = 18.0;
 }

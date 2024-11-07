@@ -1,12 +1,16 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/foundation.dart';
-import 'package:http/http.dart' as http;
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:http/http.dart' as http;
+import 'package:http/io_client.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
+
 import '../../../features/authentication/controllers/logout/logout_controller.dart';
 import '../../../utils/constants/connection_strings.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class AuthenticationService {
   final http.Client _client = http.Client();
@@ -75,16 +79,24 @@ class AuthenticationService {
     }
   }
 
-  Future<dynamic> handleSignIn({required String userName, required String password,}) async {
+  Future<dynamic> handleSignIn({
+    required String userName,
+    required String password,
+  }) async {
     var userSignInInformation = {
       "userName": userName.trim().toLowerCase(),
       "password": password.trim(),
     };
 
     try {
-      var response = await _client
+      HttpClient httpClient = HttpClient();
+      httpClient.badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+
+      final ioClient = IOClient(httpClient);
+      var response = await ioClient
           .post(
-            Uri.parse('${TConnectionStrings.deployment}auth/login'),
+            Uri.parse('${TConnectionStrings.localhost}auth/login'),
             headers: {'Content-Type': 'application/json'},
             body: jsonEncode(userSignInInformation),
           )
@@ -98,10 +110,12 @@ class AuthenticationService {
         final accessToken = responseData['token'];
         Map<String, dynamic> decodedToken = JwtDecoder.decode(accessToken);
         int? expirationTime = decodedToken['exp'];
-        await secureStorage.write(key: 'user_email', value: responseData['email']);
+        await secureStorage.write(
+            key: 'user_email', value: responseData['email']);
 
         if (expirationTime != null) {
-          await secureStorage.write(key: 'token_expiration', value: expirationTime.toString());
+          await secureStorage.write(
+              key: 'token_expiration', value: expirationTime.toString());
           startTokenExpirationCheck();
         }
         if (kDebugMode) {
@@ -143,7 +157,8 @@ class AuthenticationService {
 
   void startTokenExpirationCheck() {
     Timer.periodic(const Duration(minutes: 10), (timer) async {
-      String? expirationString = await secureStorage.read(key: 'token_expiration');
+      String? expirationString =
+          await secureStorage.read(key: 'token_expiration');
       if (expirationString != null) {
         int expirationTime = int.parse(expirationString);
         int currentTime = DateTime.now().millisecondsSinceEpoch ~/ 1000;

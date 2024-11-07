@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:animations/animations.dart';
-
-import 'features/daily_check_in/screens/home/home.dart';
+import 'features/home_screens/screens/home/home.dart';
 import 'features/personalization/screens/settings/setting.dart';
 
 class NavigationMenu extends StatelessWidget {

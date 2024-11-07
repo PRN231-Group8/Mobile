@@ -9,7 +9,7 @@ import 'data/repositories/authentication/authentication_repository.dart';
 Future<void> main() async {
   ///Widgets Binding
   final WidgetsBinding widgetsBinding =
-  WidgetsFlutterBinding.ensureInitialized();
+      WidgetsFlutterBinding.ensureInitialized();
 
   ///GetX Local Storage
   await GetStorage.init();
