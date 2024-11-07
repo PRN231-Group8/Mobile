@@ -6,11 +6,12 @@ import 'dart:io';
 import '../../../../../utils/popups/loaders.dart';
 import '../../../../../utils/validators/validation.dart';
 import '../../../controllers/user_post_controller.dart';
+import '../user_post.dart';
 
 class UpdatePostScreen extends StatefulWidget {
   final String postId;
   final String initialContent;
-  final List<Map<String, String>> initialImages; // Update type
+  final List<Map<String, String>> initialImages;
 
   const UpdatePostScreen({
     super.key,
@@ -56,15 +57,22 @@ class _UpdatePostScreenState extends State<UpdatePostScreen> {
 
   void _removeImage(String id) {
     setState(() {
-      if (_currentImages.length + _newImages.length - _imagesToRemove.length > 1) {
-        final imageToRemove = _currentImages.firstWhere((image) => image['id'] == id, orElse: () => {});
+      int remainingImages = _currentImages.length +
+          _newImages.length -
+          _imagesToRemove.length -
+          1;
+
+      if (remainingImages >= 0) {
+        final imageToRemove = _currentImages
+            .firstWhere((image) => image['id'] == id, orElse: () => {});
         if (imageToRemove.isNotEmpty) {
           _imagesToRemove.add(id);
           _currentImages.remove(imageToRemove);
         }
       } else {
         TLoaders.warningSnackBar(
-            title: 'Validation Error', message: 'At least one image is required for the post.');
+            title: 'Validation Error',
+            message: 'At least one image is required for the post.');
       }
     });
   }
@@ -73,11 +81,13 @@ class _UpdatePostScreenState extends State<UpdatePostScreen> {
     if (_contentController.text.isEmpty ||
         (_currentImages.isEmpty && _newImages.isEmpty)) {
       TLoaders.warningSnackBar(
-          title: 'Validation Error', message: 'Content and at least one image are required.');
+          title: 'Validation Error',
+          message: 'Content and at least one image are required.');
       return;
     }
 
-    Get.dialog(const Center(child: CircularProgressIndicator()), barrierDismissible: false);
+    Get.dialog(const Center(child: CircularProgressIndicator()),
+        barrierDismissible: false);
 
     bool removeAllPhotos = _currentImages.isEmpty && _newImages.isEmpty;
     List<String> photosToRemove = _imagesToRemove;
@@ -92,21 +102,24 @@ class _UpdatePostScreenState extends State<UpdatePostScreen> {
       photosToRemove: photosToRemove,
     );
 
-    Get.back();
-
     if (success) {
       Get.back();
-      TLoaders.successSnackBar(title: 'Success', message: 'Your post has been updated successfully.');
+      postController.featurePost();
+      TLoaders.successSnackBar(
+          title: 'Success',
+          message: 'Your post has been updated successfully.');
     } else {
-      TLoaders.errorSnackBar(title: 'Error', message: 'Failed to update the post, please try again later.');
+      TLoaders.errorSnackBar(
+          title: 'Error',
+          message: 'Failed to update the post, please try again later.');
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Update Post')),
-      body: Padding(
+      appBar: AppBar(title: const Text('Cập nhật bài viết')),
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -119,13 +132,12 @@ class _UpdatePostScreenState extends State<UpdatePostScreen> {
                 border: OutlineInputBorder(),
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 10),
             ElevatedButton.icon(
               onPressed: _pickImages,
               icon: const Icon(Icons.image),
-              label: const Text('Add Images'),
+              label: const Text('Chọn ảnh'),
             ),
-            const SizedBox(height: 10),
             Wrap(
               children: _currentImages.map((image) {
                 return Stack(
@@ -142,7 +154,8 @@ class _UpdatePostScreenState extends State<UpdatePostScreen> {
                     Positioned(
                       right: 0,
                       child: IconButton(
-                        icon: const Icon(Icons.remove_circle, color: Colors.red),
+                        icon:
+                            const Icon(Icons.remove_circle, color: Colors.red),
                         onPressed: () => _removeImage(image['id']!),
                       ),
                     ),
@@ -163,10 +176,9 @@ class _UpdatePostScreenState extends State<UpdatePostScreen> {
                 );
               }).toList(),
             ),
-            const Spacer(),
             ElevatedButton(
               onPressed: _submitUpdate,
-              child: const Text('Update Post'),
+              child: const Text('Cập nhật bài viết'),
             ),
           ],
         ),
@@ -174,4 +186,3 @@ class _UpdatePostScreenState extends State<UpdatePostScreen> {
     );
   }
 }
-

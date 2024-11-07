@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-
-import '../../../../features/tour_post/screens/user_post_detail/widgets/product_title.dart';
 import '../../../../utils/constants/colors.dart';
 import '../../../../utils/constants/image_strings.dart';
 import '../../../../utils/constants/sizes.dart';
@@ -39,8 +37,7 @@ class TCartItem extends StatelessWidget {
               const TBrandTitleWithVerifiedIcon(title: 'KGrill'),
               const Flexible(
                   child: TProductTitleText(
-                      title:
-                      'Combo Nướng GoGi Sườn Hoàng đế & Thăn nội bò Mỹ',
+                      title: 'Combo Nướng GoGi Sườn Hoàng đế & Thăn nội bò Mỹ',
                       maxLines: 1)),
 
               ///Attribute
@@ -49,12 +46,10 @@ class TCartItem extends StatelessWidget {
                   children: [
                     TextSpan(
                         text: 'Cho ',
-                        style:
-                        Theme.of(context).textTheme.bodySmall),
+                        style: Theme.of(context).textTheme.bodySmall),
                     TextSpan(
                         text: '1-2 người',
-                        style:
-                        Theme.of(context).textTheme.bodyLarge),
+                        style: Theme.of(context).textTheme.bodyLarge),
                   ],
                 ),
               ),

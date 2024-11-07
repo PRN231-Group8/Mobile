@@ -81,17 +81,17 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Create Post')),
-      body: Padding(
+      appBar: AppBar(title: const Text('Tạo bài viết')),
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             TextField(
               controller: _contentController,
-              maxLines: 5,
+              maxLines: 4,
               decoration: const InputDecoration(
-                labelText: 'Content',
+                labelText: 'Nội dung',
                 border: OutlineInputBorder(),
               ),
             ),
@@ -99,9 +99,8 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
             ElevatedButton.icon(
               onPressed: _pickImages,
               icon: const Icon(Icons.image),
-              label: const Text('Pick Images'),
+              label: const Text('Chọn ảnh'),
             ),
-            const SizedBox(height: 10),
             Wrap(
               children: _selectedImages.map((image) {
                 return Padding(
@@ -115,10 +114,10 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                 );
               }).toList(),
             ),
-            const Spacer(),
+            const SizedBox(height: 10),
             ElevatedButton(
               onPressed: _submitPost,
-              child: const Text('Create Post'),
+              child: const Text('Tạo bài viết'),
             ),
           ],
         ),
