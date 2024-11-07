@@ -9,11 +9,11 @@ class TImages {
 
   //--OnBoarding Images
   static const String onBoardingImage1 =
-      "assets/images/on_boarding_images/food-order.gif";
+      "assets/images/on_boarding_images/backpack.png";
   static const String onBoardingImage2 =
-      "assets/images/on_boarding_images/food-shipping.gif";
+      "assets/images/on_boarding_images/girl-finding-way-during-trekking.png";
   static const String onBoardingImage3 =
-      "assets/images/on_boarding_images/food-delivery-successfully.gif";
+      "assets/images/on_boarding_images/girl-with-backpack-going-for-trekking.png";
 
   //--Email Verification
   static const String emailSendImage =

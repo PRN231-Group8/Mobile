@@ -6,6 +6,7 @@ import 'dart:io';
 import '../../../../../utils/popups/loaders.dart';
 import '../../../../../utils/validators/validation.dart';
 import '../../../controllers/user_post_controller.dart';
+import '../user_post.dart';
 
 class CreatePostScreen extends StatefulWidget {
   const CreatePostScreen({super.key});
@@ -61,9 +62,11 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
     Get.back();
 
     if (success) {
+      Get.back();
       TLoaders.successSnackBar(
           title: 'Thành công',
-          message: 'Bài viết của bạn đã được tạo thành công!');
+          message:
+              'Bài viết của bạn đã được tạo thành công. Chúng tôi sẽ duyệt bài viết của bạn sớm nhất có thể!');
       _contentController.clear();
       setState(() {
         _selectedImages.clear();

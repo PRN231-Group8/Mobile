@@ -12,6 +12,7 @@ class UserModel {
   String phoneNumber;
   String profilePicture;
   List<String> roles;
+  String deviceId;
 
   /// Constructor for UserModel.
   UserModel({
@@ -23,6 +24,7 @@ class UserModel {
     required this.phoneNumber,
     required this.profilePicture,
     required this.roles,
+    required this.deviceId,
   });
 
   /// Helper function to get the full name.
@@ -57,6 +59,7 @@ class UserModel {
         phoneNumber: '',
         profilePicture: '',
         roles: [],
+        deviceId: '',
       );
 
 // Convert model to JSON structure for storing data in Firebase.
@@ -75,13 +78,16 @@ class UserModel {
   /// Factory method to create a UserModel from a JSON map.
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
-      id: json['userId'] ?? '', // Updated to match the JSON response
+      id: json['userId'] ?? '',
+      // Updated to match the JSON response
       firstName: json['firstName'] ?? '',
       lastName: json['lastName'] ?? '',
       email: json['email'] ?? '',
       phoneNumber: json['phoneNumber'] ?? '',
-      profilePicture: json['avatarPath'] ?? '', // Updated to match the JSON response
+      profilePicture: json['avatarPath'] ?? '',
+      // Updated to match the JSON response
       roles: List<String>.from(json['roles'] ?? []),
+      deviceId: json['deviceId'] ?? '',
     );
   }
 }

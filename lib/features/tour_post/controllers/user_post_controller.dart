@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
+import '../../../data/services/firebase/push_notification_service.dart';
 import '../../../data/services/tour_post/tour_post_service.dart';
 import '../../../utils/popups/loaders.dart';
 import '../models/user_post_model.dart';
@@ -82,6 +83,54 @@ class PostController extends GetxController {
         print('Error when create a new post: + $e');
       }
       return false;
+    }
+  }
+
+  Future<void> notifyUserOfNewComment(
+      String deviceToken, String message, String senderName) async {
+    PushNotificationService.sendNotificationToSelectedDriver(
+      deviceToken,
+      Get.context!,
+      message,
+      senderName,
+    );
+  }
+
+  Future<bool> updatePost({
+    required String postId,
+    required String content,
+    required String status,
+    bool removeAllComments = false,
+    List<String> commentsToRemove = const [],
+    bool removeAllPhotos = false,
+    List<String> photosToRemove = const [],
+  }) async {
+    try {
+      isLoading.value = true;
+
+      if (removeAllPhotos && photosToRemove.isEmpty) {
+        throw Exception("At least one photo is required for the post.");
+      }
+
+      bool success = await postService.updatePost(
+        postId: postId,
+        content: content,
+        status: status,
+        removeAllComments: removeAllComments,
+        commentsToRemove: commentsToRemove,
+        removeAllPhotos: removeAllPhotos,
+        photosToRemove: photosToRemove,
+      );
+
+      return success;
+    } catch (e) {
+      if (kDebugMode) {
+        print("Error updating post: $e");
+      }
+      return false;
+    } finally {
+      // Reset loading state when done
+      isLoading.value = false;
     }
   }
 }
