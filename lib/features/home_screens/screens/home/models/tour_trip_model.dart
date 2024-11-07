@@ -4,6 +4,7 @@ class TourTrip {
   final String tripStatus;
   final double price;
   final int bookedSeats;
+  final int totalSeats;
 
   TourTrip({
     required this.tourTripId,
@@ -11,6 +12,7 @@ class TourTrip {
     required this.tripStatus,
     required this.price,
     required this.bookedSeats,
+    required this.totalSeats,
   });
 
   factory TourTrip.fromJson(Map<String, dynamic> json) {
@@ -20,6 +22,7 @@ class TourTrip {
       tripStatus: json['tripStatus'],
       price: json['price'],
       bookedSeats: json['bookedSeats'],
+      totalSeats: json['totalSeats'],
     );
   }
 }

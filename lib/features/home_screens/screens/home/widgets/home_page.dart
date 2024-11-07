@@ -12,6 +12,7 @@ import '../../locations/widgets/all_locations.dart';
 import '../../locations/widgets/location_detail.dart';
 import '../controllers/location_controller.dart';
 import '../controllers/tour_controller.dart';
+import '../controllers/user_controller.dart';  // Add your user controller import
 import '../models/location_model.dart';
 import '../models/tour_model.dart';
 import '../tours/tour_detail.dart';
@@ -73,9 +74,10 @@ class _HomePageState extends State<HomePage> {
       child: LocationsScreen(),
     ));
   }
+
   void _navigateToAllTours(){
     Get.to(() => ChangeNotifierProvider(
-        create: (_) => TourController(),
+      create: (_) => TourController(),
       child: AllToursScreen(),
     ));
   }
@@ -95,6 +97,7 @@ class _HomePageState extends State<HomePage> {
       providers: [
         ChangeNotifierProvider(create: (_) => LocationController()..fetchLocations()),
         ChangeNotifierProvider(create: (_) => TourController()..fetch4Tours()),
+        ChangeNotifierProvider(create: (_) => UserController()..fetchUser()),
       ],
       child: Scaffold(
         body: SingleChildScrollView(
@@ -108,13 +111,37 @@ class _HomePageState extends State<HomePage> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        'Hello Minh Huy,',
-                        style: TextStyle(
-                          color: Colors.black38,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w400,
-                        ),
+                      Consumer<UserController>(
+                        builder: (context, userController, child) {
+                          if (userController.isLoading) {
+                            return const Text(
+                              'Hello,',
+                              style: TextStyle(
+                                color: Colors.black38,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            );
+                          } else if (userController.userName != null) {
+                            return Text(
+                              'Hello, ${userController.userName},',
+                              style: const TextStyle(
+                                color: Colors.black38,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            );
+                          } else {
+                            return const Text(
+                              'Hello, Guest,',
+                              style: TextStyle(
+                                color: Colors.black38,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            );
+                          }
+                        },
                       ),
                       const SizedBox(height: 5),
                       Text(

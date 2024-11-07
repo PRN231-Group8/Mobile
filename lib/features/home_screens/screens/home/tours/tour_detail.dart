@@ -4,15 +4,23 @@ import 'package:provider/provider.dart';
 import '../../locations/widgets/location_detail.dart';
 import '../controllers/tour_controller.dart';
 
-class TourDetailScreen extends StatelessWidget {
+class TourDetailScreen extends StatefulWidget {
   final String tourId;
 
   const TourDetailScreen({Key? key, required this.tourId}) : super(key: key);
 
   @override
+  _TourDetailScreenState createState() => _TourDetailScreenState();
+}
+
+class _TourDetailScreenState extends State<TourDetailScreen> {
+  int? selectedPassengers;
+  String? selectedTourTripId;
+
+  @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => TourController()..fetchTourById(tourId),
+      create: (_) => TourController()..fetchTourById(widget.tourId),
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Tour Details'),
@@ -32,7 +40,6 @@ class TourDetailScreen extends StatelessWidget {
 
             return Stack(
               children: [
-                // Main content
                 SingleChildScrollView(
                   padding: const EdgeInsets.all(16),
                   child: Column(
@@ -127,34 +134,13 @@ class TourDetailScreen extends StatelessWidget {
                               )
                                   : const Icon(Icons.location_on, color: Colors.blue),
                               title: Text(location.name),
-                              subtitle: Text(location.address),
+                              subtitle: Text(location.address.fullAddress),
                             ),
                           ),
                       ],
 
                       const SizedBox(height: 24),
 
-                      // Transportation Information
-                      if (tour.transportations.isNotEmpty) ...[
-                        const Text(
-                          'Transportations:',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        for (var transportation in tour.transportations)
-                          ListTile(
-                            leading: const Icon(Icons.directions_bus, color: Colors.green),
-                            title: Text(transportation.type),
-                            subtitle: Text('Capacity: ${transportation.capacity}'),
-                          ),
-                      ],
-
-                      const SizedBox(height: 24),
-
-                      // Tour Timestamps (Schedule)
                       // Tour Timestamps (Schedule)
                       if (tour.tourTimestamps.isNotEmpty) ...[
                         const Text(
@@ -180,24 +166,6 @@ class TourDetailScreen extends StatelessWidget {
                       ],
                       const SizedBox(height: 24),
 
-                      // Tour Moods
-                      if (tour.tourMoods.isNotEmpty) ...[
-                        const Text(
-                          'Moods:',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        Wrap(
-                          spacing: 8,
-                          children: tour.tourMoods.map((mood) => Chip(label: Text(mood.moodTag))).toList(),
-                        ),
-                      ],
-
-                      const SizedBox(height: 24),
-
                       // Tour Trips
                       if (tour.tourTrips.isNotEmpty) ...[
                         const Text(
@@ -214,8 +182,12 @@ class TourDetailScreen extends StatelessWidget {
                             subtitle: Text(
                               'Status: ${trip.tripStatus}, '
                                   'Price: ${NumberFormat.currency(locale: 'vi', symbol: '₫').format(trip.price)}, '
-                                  'Booked Seats: ${trip.bookedSeats}',
+                                  'Booked Seats: ${trip.bookedSeats}, '
+                                  'Total Seats: ${trip.totalSeats}',
                             ),
+                            onTap: () {
+                              _showTourTripDetailDialog(context, trip);
+                            },
                           )
                       ],
                       const SizedBox(height: 80), // Extra padding for button space
@@ -229,10 +201,15 @@ class TourDetailScreen extends StatelessWidget {
                   left: 16,
                   right: 16,
                   child: ElevatedButton.icon(
-                    onPressed: () {
-                      final tourTripId = tour.tourTrips[0].tourTripId;
-                      controller.initiatePayment(context ,tourTripId);
-                    },
+                    onPressed: selectedTourTripId != null && selectedPassengers != null
+                        ? () {
+                      controller.initiatePayment(
+                        context,
+                        selectedTourTripId!,
+                        selectedPassengers!,
+                      );
+                    }
+                        : null, // Disable if no trip is selected or passengers not set
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       backgroundColor: Colors.black,
@@ -251,6 +228,59 @@ class TourDetailScreen extends StatelessWidget {
             );
           },
         ),
+      ),
+    );
+  }
+
+  // Method to display tour trip detail dialog with passenger input
+  Future<void> _showTourTripDetailDialog(BuildContext context, dynamic trip) async {
+    final maxPassengers = trip.totalSeats - trip.bookedSeats;
+    final passengerController = TextEditingController();
+
+    await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Trip Details'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text('Date: ${DateFormat('dd/MM/yyyy, hh:mm a').format(trip.tripDate.toLocal())}'),
+            Text('Price: ${NumberFormat.currency(locale: 'vi', symbol: '₫').format(trip.price)}'),
+            Text('Total Seats: ${trip.totalSeats}, Booked: ${trip.bookedSeats}'),
+            const SizedBox(height: 16),
+            TextField(
+              controller: passengerController,
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                hintText: 'Enter passengers (Max: $maxPassengers)',
+                labelText: 'Number of Passengers',
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              final enteredPassengers = int.tryParse(passengerController.text) ?? 0;
+              if (enteredPassengers > 0 && enteredPassengers <= maxPassengers) {
+                setState(() {
+                  selectedTourTripId = trip.tourTripId;
+                  selectedPassengers = enteredPassengers;
+                });
+                Navigator.pop(context);
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Invalid passenger count. Max: $maxPassengers')),
+                );
+              }
+            },
+            child: const Text('Confirm'),
+          ),
+        ],
       ),
     );
   }

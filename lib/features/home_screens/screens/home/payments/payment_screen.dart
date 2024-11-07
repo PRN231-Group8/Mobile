@@ -47,7 +47,7 @@ class _VNPayPaymentScreenState extends State<VNPayPaymentScreen> {
 
   Future<void> _handleNavigationRequest(BuildContext context, NavigationRequest request) async {
     final Uri uri = Uri.parse(request.url);
-    if (uri.toString().contains('https://localhost:7130/api/payments/callback')) {
+    if (uri.toString().contains('https://explore-now-one.vercel.app/payment-result')) {
       final responseCode = uri.queryParameters['vnp_ResponseCode'];
       final queryParam = uri.queryParameters;
       String defaultMessage;
