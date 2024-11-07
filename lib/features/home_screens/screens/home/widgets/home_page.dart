@@ -12,7 +12,7 @@ import '../../locations/widgets/all_locations.dart';
 import '../../locations/widgets/location_detail.dart';
 import '../controllers/location_controller.dart';
 import '../controllers/tour_controller.dart';
-import '../controllers/user_controller.dart';  // Add your user controller import
+import '../controllers/user_controller.dart';
 import '../models/location_model.dart';
 import '../models/tour_model.dart';
 import '../tours/tour_detail.dart';

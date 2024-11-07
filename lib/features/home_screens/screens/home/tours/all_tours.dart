@@ -1,7 +1,8 @@
 import 'package:explore_now/features/home_screens/screens/home/tours/tour_detail.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+
 import '../controllers/tour_controller.dart';
 
 class AllToursScreen extends StatelessWidget {
@@ -35,7 +36,7 @@ class AllToursScreen extends StatelessWidget {
               itemBuilder: (context, index) {
                 final tour = controller.tours[index];
                 final imageUrl = tour.locationInTours.isNotEmpty &&
-                    tour.locationInTours[0].photos.isNotEmpty
+                        tour.locationInTours[0].photos.isNotEmpty
                     ? tour.locationInTours[0].photos[0].url
                     : null;
 
@@ -63,17 +64,17 @@ class AllToursScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(12),
                             child: imageUrl != null
                                 ? Image.network(
-                              imageUrl,
-                              width: 80,
-                              height: 80,
-                              fit: BoxFit.cover,
-                            )
+                                    imageUrl,
+                                    width: 80,
+                                    height: 80,
+                                    fit: BoxFit.cover,
+                                  )
                                 : Image.asset(
-                              'assets/images/home/home2.jpg',
-                              width: 80,
-                              height: 80,
-                              fit: BoxFit.cover,
-                            ),
+                                    'assets/images/home/home2.jpg',
+                                    width: 80,
+                                    height: 80,
+                                    fit: BoxFit.cover,
+                                  ),
                           ),
                           const SizedBox(width: 12),
                           Expanded(
@@ -93,7 +94,8 @@ class AllToursScreen extends StatelessWidget {
                                 const SizedBox(height: 4),
                                 Row(
                                   children: [
-                                    const Icon(Icons.location_on, size: 14, color: Colors.blue),
+                                    const Icon(Icons.location_on,
+                                        size: 14, color: Colors.blue),
                                     const SizedBox(width: 4),
                                     Text(
                                       tour.locationInTours.isNotEmpty
@@ -110,7 +112,8 @@ class AllToursScreen extends StatelessWidget {
                                 ),
                                 const SizedBox(height: 4),
                                 Text(
-                                  tour.description ?? 'No description available',
+                                  tour.description ??
+                                      'No description available',
                                   style: const TextStyle(
                                     fontSize: 12,
                                     color: Colors.black54,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../home/models/location_model.dart';
 
 class LocationCard extends StatelessWidget {
@@ -39,8 +40,11 @@ class LocationCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(location.name, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-                Text(location.address.fullAddress, style: TextStyle(color: Colors.grey[600])),
+                Text(location.name,
+                    style:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                Text(location.address.fullAddress,
+                    style: TextStyle(color: Colors.grey[600])),
                 SizedBox(height: 5),
               ],
             ),

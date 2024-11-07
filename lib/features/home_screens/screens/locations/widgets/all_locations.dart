@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import '../../home/controllers/location_controller.dart';
 import 'location_card.dart';
 import 'location_detail.dart';
@@ -7,7 +8,8 @@ import 'location_detail.dart';
 class LocationsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final locationController = Provider.of<LocationController>(context, listen: false);
+    final locationController =
+        Provider.of<LocationController>(context, listen: false);
     locationController.fetchAllLocations();
 
     return Scaffold(
@@ -44,7 +46,8 @@ class LocationsScreen extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => LocationDetailScreen(location: location),
+                          builder: (context) =>
+                              LocationDetailScreen(location: location),
                         ),
                       );
                     },

@@ -1,10 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
 import 'package:explore_now/utils/constants/connection_strings.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/io_client.dart';
-import '../../../features/authentication/controllers/logout/logout_controller.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
+
+import '../../../features/authentication/controllers/logout/logout_controller.dart';
 
 class PaymentService {
   final FlutterSecureStorage secureStorage = const FlutterSecureStorage();
@@ -19,9 +21,11 @@ class PaymentService {
     return token;
   }
 
-  Future<String?> initiatePayment(String tourTripId, int numberOfPassengers) async {
+  Future<String?> initiatePayment(
+      String tourTripId, int numberOfPassengers) async {
     HttpClient httpClient = HttpClient();
-    httpClient.badCertificateCallback = (X509Certificate cert, String host, int port) => true;
+    httpClient.badCertificateCallback =
+        (X509Certificate cert, String host, int port) => true;
     final ioClient = IOClient(httpClient);
     final Uri url = Uri.parse('${TConnectionStrings.localhost}payments');
 
@@ -67,13 +71,17 @@ class PaymentService {
       ioClient.close();
     }
   }
-  Future<Map<String, dynamic>> sendPaymentCallback(Map<String, String> queryParams) async {
+
+  Future<Map<String, dynamic>> sendPaymentCallback(
+      Map<String, String> queryParams) async {
     HttpClient httpClient = HttpClient();
-    httpClient.badCertificateCallback = (X509Certificate cert, String host, int port) => true;
+    httpClient.badCertificateCallback =
+        (X509Certificate cert, String host, int port) => true;
     final ioClient = IOClient(httpClient);
 
-    final Uri backendCallbackUrl = Uri.parse('${TConnectionStrings.localhost}payments/callback')
-        .replace(queryParameters: queryParams);
+    final Uri backendCallbackUrl =
+        Uri.parse('${TConnectionStrings.localhost}payments/callback')
+            .replace(queryParameters: queryParams);
     print("API GET URL: $backendCallbackUrl");
 
     try {
@@ -88,10 +96,18 @@ class PaymentService {
       // Check the "isSucceed" field in the response
       if (response.statusCode == 200 && data['isSucceed'] == true) {
         print('Giao dịch hoàn thành.');
-        return {'success': true, 'message': data['result']['message'] ?? 'Giao dịch thành công.'};
+        return {
+          'success': true,
+          'message': data['result']['message'] ?? 'Giao dịch thành công.'
+        };
       } else {
-        print('Không thể hoàn thành giao dịch. Lý do: ${data['message'] ?? 'Unknown error'}');
-        return {'success': false, 'message': data['result']['message'] ?? 'Không thể hoàn thành giao dịch.'};
+        print(
+            'Không thể hoàn thành giao dịch. Lý do: ${data['message'] ?? 'Unknown error'}');
+        return {
+          'success': false,
+          'message':
+              data['result']['message'] ?? 'Không thể hoàn thành giao dịch.'
+        };
       }
     } catch (e) {
       print('Lỗi khi gọi BE callback API: $e');

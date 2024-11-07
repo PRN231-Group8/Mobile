@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:explore_now/utils/constants/sizes.dart';
-import 'package:explore_now/utils/constants/text_strings.dart';
 
 class SearchBox extends StatelessWidget {
   const SearchBox({super.key});
@@ -18,7 +16,8 @@ class SearchBox extends StatelessWidget {
           borderRadius: BorderRadius.circular(30),
           borderSide: BorderSide.none,
         ),
-        contentPadding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+        contentPadding:
+            const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
       ),
     );
   }

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+
 import '../../home/models/location_model.dart';
 
 class LocationDetailScreen extends StatelessWidget {
   final Location location;
 
-  const LocationDetailScreen({Key? key, required this.location}) : super(key: key);
+  const LocationDetailScreen({Key? key, required this.location})
+      : super(key: key);
 
   void _showFullScreenImage(BuildContext context, String imageUrl) {
     showDialog(
@@ -125,14 +127,16 @@ class LocationDetailScreen extends StatelessWidget {
                       children: [
                         Icon(Icons.schedule, color: Colors.black54),
                         SizedBox(height: 4),
-                        Text('8 hours', style: TextStyle(color: Colors.black54)),
+                        Text('8 hours',
+                            style: TextStyle(color: Colors.black54)),
                       ],
                     ),
                     Column(
                       children: [
                         Icon(Icons.thermostat, color: Colors.black54),
                         SizedBox(height: 4),
-                        Text('${location.temperature}°C', style: TextStyle(color: Colors.black54)),
+                        Text('${location.temperature}°C',
+                            style: TextStyle(color: Colors.black54)),
                       ],
                     ),
                   ],

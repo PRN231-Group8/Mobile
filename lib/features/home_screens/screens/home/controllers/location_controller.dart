@@ -1,5 +1,6 @@
 import 'package:explore_now/data/services/location/location_service.dart';
 import 'package:flutter/material.dart';
+
 import '../models/location_model.dart';
 
 class LocationController with ChangeNotifier {
@@ -8,6 +9,7 @@ class LocationController with ChangeNotifier {
   bool _isLoading = false;
 
   List<Location> get locations => _locations;
+
   bool get isLoading => _isLoading;
 
   LocationController();

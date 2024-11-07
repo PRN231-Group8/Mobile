@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../models/location_model.dart';
 
 class TrendingDestinations extends StatelessWidget {

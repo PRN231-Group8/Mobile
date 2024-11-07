@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+
 import '../../locations/widgets/location_detail.dart';
 import '../controllers/tour_controller.dart';
 
@@ -79,14 +80,16 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                       const SizedBox(height: 8),
                       Text(
                         tour.description ?? 'No description available',
-                        style: const TextStyle(fontSize: 16, color: Colors.black87),
+                        style: const TextStyle(
+                            fontSize: 16, color: Colors.black87),
                       ),
                       const SizedBox(height: 16),
 
                       // Dates
                       Text(
                         'Duration: ${tour.startDate != null ? DateFormat('dd/MM/yyyy, hh:mm a').format(tour.startDate!) : 'N/A'} - ${tour.endDate != null ? DateFormat('dd/MM/yy, hh:mm a').format(tour.endDate!) : 'N/A'}',
-                        style: const TextStyle(fontSize: 16, color: Colors.black54),
+                        style: const TextStyle(
+                            fontSize: 16, color: Colors.black54),
                       ),
                       const SizedBox(height: 16),
 
@@ -117,22 +120,24 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => LocationDetailScreen(location: location),
+                                  builder: (context) =>
+                                      LocationDetailScreen(location: location),
                                 ),
                               );
                             },
                             child: ListTile(
                               leading: location.photos.isNotEmpty
                                   ? ClipRRect(
-                                borderRadius: BorderRadius.circular(8),
-                                child: Image.network(
-                                  location.photos[0].url,
-                                  width: 50,
-                                  height: 50,
-                                  fit: BoxFit.cover,
-                                ),
-                              )
-                                  : const Icon(Icons.location_on, color: Colors.blue),
+                                      borderRadius: BorderRadius.circular(8),
+                                      child: Image.network(
+                                        location.photos[0].url,
+                                        width: 50,
+                                        height: 50,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    )
+                                  : const Icon(Icons.location_on,
+                                      color: Colors.blue),
                               title: Text(location.name),
                               subtitle: Text(location.address.fullAddress),
                             ),
@@ -178,19 +183,21 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                         const SizedBox(height: 8),
                         for (var trip in tour.tourTrips)
                           ListTile(
-                            title: Text('Trip Date: ${DateFormat('dd/MM/yyyy hh:mm a').format(trip.tripDate.toLocal())}'),
+                            title: Text(
+                                'Trip Date: ${DateFormat('dd/MM/yyyy hh:mm a').format(trip.tripDate.toLocal())}'),
                             subtitle: Text(
                               'Status: ${trip.tripStatus}, '
-                                  'Price: ${NumberFormat.currency(locale: 'vi', symbol: '₫').format(trip.price)}, '
-                                  'Booked Seats: ${trip.bookedSeats}, '
-                                  'Total Seats: ${trip.totalSeats}',
+                              'Price: ${NumberFormat.currency(locale: 'vi', symbol: '₫').format(trip.price)}, '
+                              'Booked Seats: ${trip.bookedSeats}, '
+                              'Total Seats: ${trip.totalSeats}',
                             ),
                             onTap: () {
                               _showTourTripDetailDialog(context, trip);
                             },
                           )
                       ],
-                      const SizedBox(height: 80), // Extra padding for button space
+                      const SizedBox(height: 80),
+                      // Extra padding for button space
                     ],
                   ),
                 ),
@@ -201,15 +208,17 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                   left: 16,
                   right: 16,
                   child: ElevatedButton.icon(
-                    onPressed: selectedTourTripId != null && selectedPassengers != null
-                        ? () {
-                      controller.initiatePayment(
-                        context,
-                        selectedTourTripId!,
-                        selectedPassengers!,
-                      );
-                    }
-                        : null, // Disable if no trip is selected or passengers not set
+                    onPressed:
+                        selectedTourTripId != null && selectedPassengers != null
+                            ? () {
+                                controller.initiatePayment(
+                                  context,
+                                  selectedTourTripId!,
+                                  selectedPassengers!,
+                                );
+                              }
+                            : null,
+                    // Disable if no trip is selected or passengers not set
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       backgroundColor: Colors.black,
@@ -233,7 +242,8 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
   }
 
   // Method to display tour trip detail dialog with passenger input
-  Future<void> _showTourTripDetailDialog(BuildContext context, dynamic trip) async {
+  Future<void> _showTourTripDetailDialog(
+      BuildContext context, dynamic trip) async {
     final maxPassengers = trip.totalSeats - trip.bookedSeats;
     final passengerController = TextEditingController();
 
@@ -244,9 +254,12 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text('Date: ${DateFormat('dd/MM/yyyy, hh:mm a').format(trip.tripDate.toLocal())}'),
-            Text('Price: ${NumberFormat.currency(locale: 'vi', symbol: '₫').format(trip.price)}'),
-            Text('Total Seats: ${trip.totalSeats}, Booked: ${trip.bookedSeats}'),
+            Text(
+                'Date: ${DateFormat('dd/MM/yyyy, hh:mm a').format(trip.tripDate.toLocal())}'),
+            Text(
+                'Price: ${NumberFormat.currency(locale: 'vi', symbol: '₫').format(trip.price)}'),
+            Text(
+                'Total Seats: ${trip.totalSeats}, Booked: ${trip.bookedSeats}'),
             const SizedBox(height: 16),
             TextField(
               controller: passengerController,
@@ -265,7 +278,8 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
           ),
           TextButton(
             onPressed: () {
-              final enteredPassengers = int.tryParse(passengerController.text) ?? 0;
+              final enteredPassengers =
+                  int.tryParse(passengerController.text) ?? 0;
               if (enteredPassengers > 0 && enteredPassengers <= maxPassengers) {
                 setState(() {
                   selectedTourTripId = trip.tourTripId;
@@ -274,7 +288,9 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                 Navigator.pop(context);
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Invalid passenger count. Max: $maxPassengers')),
+                  SnackBar(
+                      content:
+                          Text('Invalid passenger count. Max: $maxPassengers')),
                 );
               }
             },

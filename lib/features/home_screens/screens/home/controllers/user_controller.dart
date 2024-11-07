@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+
 import '../../../../../data/services/personalization/user_profile_service.dart';
 
 class UserController with ChangeNotifier {
@@ -35,6 +36,4 @@ class UserController with ChangeNotifier {
       notifyListeners();
     }
   }
-
-
 }

@@ -1,9 +1,11 @@
 import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
+
 import '../../../utils/constants/connection_strings.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class UserProfileService {
   var client = http.Client();
@@ -107,7 +109,8 @@ class UserProfileService {
     }
   }
 
-  Future<Map<String, Object>> updateUserProfile(Map<String, dynamic> updatedFields) async {
+  Future<Map<String, Object>> updateUserProfile(
+      Map<String, dynamic> updatedFields) async {
     String? accessToken = await getAccessToken();
     if (accessToken == null) {
       return {"success": false, "message": "No access token found"};

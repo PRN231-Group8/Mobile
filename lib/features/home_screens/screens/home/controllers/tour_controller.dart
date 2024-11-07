@@ -1,6 +1,7 @@
 import 'package:explore_now/data/services/payment/payment_service.dart';
 import 'package:explore_now/data/services/tour/tour_service.dart';
 import 'package:flutter/material.dart';
+
 import '../models/tour_model.dart';
 import '../payments/payment_screen.dart';
 
@@ -17,8 +18,10 @@ class TourController with ChangeNotifier {
     try {
       tours = await _tourService.fetch4Tours();
       for (var tour in tours) {
-        if (tour.locationInTours.isNotEmpty && tour.locationInTours[0].photos.isNotEmpty) {
-          print("Tour ID: ${tour.id} - Image URL: ${tour.locationInTours[0].photos[0].url}");
+        if (tour.locationInTours.isNotEmpty &&
+            tour.locationInTours[0].photos.isNotEmpty) {
+          print(
+              "Tour ID: ${tour.id} - Image URL: ${tour.locationInTours[0].photos[0].url}");
         } else {
           print("Tour ID: ${tour.id} - No image available");
         }
@@ -37,8 +40,10 @@ class TourController with ChangeNotifier {
     try {
       tours = await _tourService.fetchAllTours();
       for (var tour in tours) {
-        if (tour.locationInTours.isNotEmpty && tour.locationInTours[0].photos.isNotEmpty) {
-          print("Tour ID: ${tour.id} - Image URL: ${tour.locationInTours[0].photos[0].url}");
+        if (tour.locationInTours.isNotEmpty &&
+            tour.locationInTours[0].photos.isNotEmpty) {
+          print(
+              "Tour ID: ${tour.id} - Image URL: ${tour.locationInTours[0].photos[0].url}");
         } else {
           print("Tour ID: ${tour.id} - No image available");
         }
@@ -59,7 +64,8 @@ class TourController with ChangeNotifier {
       if (tourDetail != null) {
         if (tourDetail!.locationInTours.isNotEmpty) {
           if (tourDetail!.locationInTours[0].photos.isNotEmpty) {
-            print("First Photo URL: ${tourDetail!.locationInTours[0].photos[0].url}");
+            print(
+                "First Photo URL: ${tourDetail!.locationInTours[0].photos[0].url}");
           }
         }
       } else {
@@ -72,8 +78,11 @@ class TourController with ChangeNotifier {
       notifyListeners();
     }
   }
-  Future<void> initiatePayment(BuildContext context, String tourTripId, int numberOfPassengers) async {
-    final paymentUrl = await _paymentService.initiatePayment(tourTripId, numberOfPassengers);
+
+  Future<void> initiatePayment(
+      BuildContext context, String tourTripId, int numberOfPassengers) async {
+    final paymentUrl =
+        await _paymentService.initiatePayment(tourTripId, numberOfPassengers);
     if (paymentUrl != null && paymentUrl.isNotEmpty) {
       print("Navigating to Payment URL: $paymentUrl");
 
@@ -101,7 +110,9 @@ class TourController with ChangeNotifier {
       );
     }
   }
-  Future<Map<String, dynamic>> handlePaymentCallback(Map<String, String> queryParams) async {
+
+  Future<Map<String, dynamic>> handlePaymentCallback(
+      Map<String, String> queryParams) async {
     return await _paymentService.sendPaymentCallback(queryParams);
   }
 }

@@ -1,8 +1,7 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+
 import '../controllers/tour_controller.dart';
 import '../models/tour_model.dart';
 
@@ -35,8 +34,8 @@ class TourDestinations extends StatelessWidget {
                   child: TourCard(
                     image: tour.locationInTours.isNotEmpty
                         ? tour.locationInTours[0].photos.isNotEmpty
-                        ? tour.locationInTours[0].photos[0].url
-                        : 'assets/images/home/home2.jpg'
+                            ? tour.locationInTours[0].photos[0].url
+                            : 'assets/images/home/home2.jpg'
                         : 'assets/images/home/home2.jpg',
                     title: tour.title ?? 'No title available',
                     location: tour.locationInTours.isNotEmpty
@@ -131,7 +130,8 @@ class TourCard extends StatelessWidget {
                 size: 14,
               ),
               const SizedBox(width: 4),
-              Expanded( // Use Expanded to allow wrapping
+              Expanded(
+                // Use Expanded to allow wrapping
                 child: Text(
                   location,
                   maxLines: 1,
@@ -158,5 +158,3 @@ class TourCard extends StatelessWidget {
     );
   }
 }
-
-
