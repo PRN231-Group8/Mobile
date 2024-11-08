@@ -17,7 +17,7 @@ class Transportation {
     return Transportation(
       id: json['id'],
       type: json['type'],
-      price: json['price'],
+      price: (json['price'] as num).toDouble(),
       capacity: json['capacity'],
       tourId: json['tourId'],
     );

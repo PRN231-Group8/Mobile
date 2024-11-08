@@ -17,11 +17,11 @@ class PostController extends GetxController {
 
   @override
   void onInit() {
-    fetchFeatureProducts();
+    fetchFeaturePost();
     super.onInit();
   }
 
-  void fetchFeatureProducts() async {
+  void fetchFeaturePost() async {
     try {
       isLoading.value = true;
 
@@ -42,7 +42,7 @@ class PostController extends GetxController {
     if (deleted) {
       TLoaders.successSnackBar(
           title: 'Thành công', message: 'Bài viết đã được xóa');
-      fetchFeatureProducts();
+      fetchFeaturePost();
     } else {
       TLoaders.successSnackBar(
           title: 'Lỗi rồi',
@@ -56,7 +56,7 @@ class PostController extends GetxController {
       final success = await postService.addComment(content, postId);
 
       if (success) {
-        fetchFeatureProducts();
+        fetchFeaturePost();
       } else {
         TLoaders.errorSnackBar(
             title: 'Lỗi rồi',
@@ -86,8 +86,7 @@ class PostController extends GetxController {
     }
   }
 
-  Future<void> notifyUserOfNewComment(
-      String deviceToken, String message, String senderName) async {
+  Future<void> notifyUserOfNewComment(String deviceToken, String message, String senderName) async {
     PushNotificationService.sendNotificationToSelectedDriver(
       deviceToken,
       Get.context!,

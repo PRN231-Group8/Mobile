@@ -79,7 +79,7 @@ class TValidator {
     for (var image in images) {
       int sizeInBytes = image.lengthSync();
       double sizeInMB = sizeInBytes / (1024 * 1024);
-      if (sizeInMB > 3) {
+      if (sizeInMB > 10) {
         return 'Ảnh không được vượt quá 10MB';
       }
     }
