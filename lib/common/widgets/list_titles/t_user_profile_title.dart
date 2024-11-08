@@ -3,6 +3,7 @@ import '../../../../common/widgets/images/t_circular_image.dart';
 import 'package:flutter/material.dart';
 
 import '../../../utils/constants/colors.dart';
+import '../../../utils/constants/image_strings.dart';
 
 class TUserProfileTitle extends StatelessWidget {
   const TUserProfileTitle({
@@ -23,12 +24,11 @@ class TUserProfileTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: TCircularImage(
-        image: profilePicture,
-        width: 60,
-        height: 60,
-        padding: 0,
-        isNetworkImage: isNetworkImage,
+      leading: CircleAvatar(
+        backgroundImage: profilePicture.isNotEmpty && isNetworkImage
+            ? NetworkImage(profilePicture)
+            : const AssetImage(TImages.userImage2) as ImageProvider,
+        radius: 30, // Adjust radius if needed
       ),
       title: Text(fullName,
           overflow: TextOverflow.ellipsis,

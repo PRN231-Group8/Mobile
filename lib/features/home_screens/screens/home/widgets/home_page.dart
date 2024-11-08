@@ -211,7 +211,7 @@ class _HomePageState extends State<HomePage> {
               ),
               const SizedBox(height: 30),
               SectionTitle(
-                title: 'Các tour du lịch phổ biến',
+                title: 'Tour du lịch phổ biến',
                 onViewAllPressed: _navigateToAllTours,
               ),
               const SizedBox(height: 10),

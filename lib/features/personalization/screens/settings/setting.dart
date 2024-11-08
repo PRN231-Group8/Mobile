@@ -149,28 +149,25 @@ class SettingsScreenState extends State<SettingsScreen> {
 
                   ///User Profile Card
                   Obx(() {
-                    final profilePicture = userController
-                        .userUpdateProfile['result']?['avatarPath'];
-                    final networkImage =
-                        (profilePicture == null || profilePicture == "null")
-                            ? TImages.userImage2
-                            : profilePicture;
+                    final profilePicture = userController.userUpdateProfile['result']?['avatarPath'];
+                    final networkImage = (profilePicture == null || profilePicture == "null")
+                        ? TImages.userImage2
+                        : profilePicture;
 
+                    // Show shimmer effect while profile data is loading
                     if (userController.profileLoading.value) {
                       return const TShimmerEffect(width: 300, height: 50);
                     } else {
                       return TUserProfileTitle(
-                        onPressed: () => Get.to(() => const ProfileScreen()),
-                        fullName:
-                            '${userController.firstName.text} ${userController.lastName.text}',
-                        // Ensure these are used correctly
+                        onPressed: () => Get.to(() => const ProfileScreen()), // Navigate to profile screen on press
+                        fullName: '${userController.firstName.text} ${userController.lastName.text}',
                         email: userController.email.text,
                         profilePicture: networkImage,
-                        isNetworkImage: !(profilePicture == null ||
-                            profilePicture == "null"),
+                        isNetworkImage: profilePicture != null && profilePicture != "null",
                       );
                     }
                   }),
+
                   const SizedBox(height: TSizes.spaceBtwSections),
                 ],
               ),

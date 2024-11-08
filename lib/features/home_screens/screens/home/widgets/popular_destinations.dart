@@ -60,12 +60,12 @@ class TourCard extends StatelessWidget {
   final double price;
 
   const TourCard({
-    Key? key,
+    super.key,
     required this.image,
     required this.title,
     required this.location,
     required this.price,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -109,7 +109,7 @@ class TourCard extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           // Fixed height container for title and location to avoid overflow
-          Container(
+          SizedBox(
             height: 40,
             child: Text(
               title,
