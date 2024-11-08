@@ -93,23 +93,21 @@ class ProfileScreenState extends State<ProfileScreen> {
                       child: Column(
                         children: [
                           Obx(() {
-                            final profilePicture = userController
-                                .userUpdateProfile['result']?['avatarPath'];
-                            final networkImage = (profilePicture == null ||
-                                    profilePicture == "null")
+                            final profilePicture = userController.userUpdateProfile['result']?['avatarPath'];
+                            final networkImage = (profilePicture == null || profilePicture == "null")
                                 ? TImages.userImage2
                                 : profilePicture;
+
+                            // Show shimmer effect while the image is uploading
                             if (userController.imageUploading.value) {
-                              return const TShimmerEffect(
-                                  width: 100, height: 100);
+                              return const TShimmerEffect(width: 100, height: 100);
                             } else {
-                              return TCircularImage(
-                                  image: networkImage,
-                                  width: 100,
-                                  height: 100,
-                                  padding: 0,
-                                  isNetworkImage: !(profilePicture == null ||
-                                      profilePicture == "null"));
+                              return CircleAvatar(
+                                backgroundImage: (networkImage.isNotEmpty)
+                                    ? NetworkImage(networkImage)
+                                    : const AssetImage(TImages.userImage2) as ImageProvider,
+                                radius: 50, // Adjust radius if needed
+                              );
                             }
                           }),
                           TextButton(
