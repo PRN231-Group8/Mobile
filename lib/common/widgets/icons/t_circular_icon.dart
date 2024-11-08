@@ -35,7 +35,7 @@ class TCircularIcon extends StatelessWidget {
               ? backgroundColor!
               : THelperFunctions.isDarkMode(context)
                   ? TColors.black.withOpacity(0.9)
-                  : TColors.white.withOpacity(0.9)),
+                  : TColors.darkGrey.withOpacity(0.9)),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [

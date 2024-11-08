@@ -185,10 +185,10 @@ class TPostCardVertical extends StatelessWidget {
                           children: [
                             Text(
                               post.user.fullName,
-                              style: const TextStyle(
+                              style:  TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.white,
+                                color: dark ? TColors.white : TColors.black,
                               ),
                             ),
                             Text(
@@ -485,7 +485,9 @@ class TPostCardVertical extends StatelessWidget {
                                 ),
                               ),
                               hintStyle: TextStyle(
-                                color: Colors.white.withOpacity(0.5),
+                                color:  dark
+                                ? Colors.white.withOpacity(0.6)
+                                : Colors.black.withOpacity(0.5),
                               ),
                             ),
                           ),

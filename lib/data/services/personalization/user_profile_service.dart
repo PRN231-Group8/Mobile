@@ -155,7 +155,7 @@ class UserProfileService {
     try {
       var response = await client
           .put(
-            Uri.parse('${TConnectionStrings.deployment}users/profile/$userId'),
+            Uri.parse('${TConnectionStrings.deployment}users/$userId'),
             headers: {
               'Content-Type': 'application/json',
               'Authorization': 'Bearer $accessToken',
